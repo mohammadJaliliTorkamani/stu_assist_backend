@@ -56,6 +56,11 @@ function closeConn()
     global $dbConn;
     mysqli_close($dbConn);
 }
+
+function sendResponseCode($success = true)
+{
+    http_response_code($success ? 200 : 500);
+}
 /*
 * End of file database.php
 */
