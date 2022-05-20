@@ -49,6 +49,6 @@ $result = createOTP();
 if ($result === TRUE) {
     sendResponseCode();
 } else {
-    sendResponseCode(500);
+    sendResponseCode(false);
 }
 exit;

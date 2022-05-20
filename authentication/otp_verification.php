@@ -23,7 +23,7 @@ function createToken($token)
         dbQuery($sql);
         sendResponseCode();
     } else {
-        sendResponseCode(500);
+        sendResponseCode(false);
     }
 }
 
@@ -45,8 +45,8 @@ if (dbNumRows($result) > 0) {
         createToken($token);
         sendResponseCode();
     } else {
-        sendResponseCode(400);
+        sendResponseCode(false);
     }
 } else {
-    sendResponseCode(400);
+    sendResponseCode(false);
 }
