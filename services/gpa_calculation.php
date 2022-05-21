@@ -56,11 +56,17 @@ if (isValid($token)) {
         $result = decreaseCoupon($token, $coupons - 1);
         if ($result === TRUE) {
             sendResponseCode();
-            echo $gpa;
+            $result = [];
+            $result['error'] = false;
+            $result['data'] = $gpa;
+            $result['message'] = '';
+            echo (json_encode($result));
         } else
             sendResponseCode(false);
     } else {
         $result = [];
+        $result['error'] = true;
+        $result['data'] = null;
         $result['message'] = 'اتمام کوپن';
         echo (json_encode($result));
     }
