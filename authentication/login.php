@@ -1,8 +1,8 @@
 <?php
 
 require("../config.php");
-header('Access-Control-Allow-Origin: *'); //is needed for local port communications
-header("Access-Control-Allow-Headers: Content-Type");
+// header('Access-Control-Allow-Origin: *'); //is needed for local port communications
+// header("Access-Control-Allow-Headers: Content-Type");
 
 
 $phoneNumber = $_POST['phone_number'];

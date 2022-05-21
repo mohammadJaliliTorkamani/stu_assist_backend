@@ -1,7 +1,6 @@
 <?php
 
 require("../config.php");
-header('Access-Control-Allow-Origin: *'); //is needed for local port communications
 
 $OTP = $_POST['otp_code'];
 $phoneNumber = $_POST['phone_number'];

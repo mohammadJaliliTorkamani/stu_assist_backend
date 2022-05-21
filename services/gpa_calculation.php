@@ -1,13 +1,12 @@
 <?php
 
 require("../config.php");
-header('Access-Control-Allow-Origin: *'); //is needed for local port communications
-
 
 function getToken()
 {
     $headers = getallheaders();
-    return $headers['token'];
+    $val = $headers['Authorization'];
+    return trim(substr($val, 7));
 }
 
 function isValid($token)
