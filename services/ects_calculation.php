@@ -101,7 +101,7 @@ if (isValid($token)) {
             $result1 = decreaseBalance($token, $balance - $serviceCost);
             $result2 = insertServiceUsage($token);
 
-            if ($result1 === TRUE && $result2 === TRUE) {
+            if ($result1 == TRUE && $result2 == TRUE) {
                 sendResponseCode();
                 $result = [];
                 $result['error'] = false;

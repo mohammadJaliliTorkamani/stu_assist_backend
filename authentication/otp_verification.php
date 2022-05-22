@@ -15,7 +15,7 @@ function createToken($token)
     $query = "INSERT INTO Token(value, user_phone, expiration_date, expiration_time, is_valid, creation_date, creation_time)
     VALUES('$token', '$phoneNumber', '$expirationDate','$expirationTime','1','$currentDate','$currentTime' )";
     $result = dbQuery($query);
-    if ($result === TRUE) {
+    if ($result == TRUE) {
         $sql = "UPDATE User SET type = '1' WHERE phone = '$phoneNumber'";
         dbQuery($sql);
         $sql = "DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'";

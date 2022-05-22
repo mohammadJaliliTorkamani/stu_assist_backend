@@ -46,7 +46,7 @@ if (dbNumRows($result) == 0) {
 
 $result = createOTP();
 
-if ($result === TRUE) {
+if ($result == TRUE) {
     sendResponseCode();
 } else {
     sendResponseCode(false);
