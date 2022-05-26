@@ -20,7 +20,7 @@ function createToken($token)
         dbQuery($sql);
         $sql = "DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'";
         dbQuery($sql);
-        sendResponseCode();
+        echo $token;
     } else {
         sendResponseCode(false);
     }
@@ -42,7 +42,6 @@ if (dbNumRows($result) > 0) {
         $flavor = $phoneNumber . $currentDate . $currentTime . $OTP;
         $token = hash('sha256', $flavor);
         createToken($token);
-        sendResponseCode();
     } else {
         sendResponseCode(false);
     }
