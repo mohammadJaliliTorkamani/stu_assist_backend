@@ -19,7 +19,7 @@ if ($method == "OPTIONS") {
 //database connection config
 $dbHost = 'localhost';
 $dbUser = 'root';
-$dbPass = '';
+$dbPass = '&D93f6qe1';
 $dbName = 'stu_assist_db';
 
 // setting up the web root and server root
