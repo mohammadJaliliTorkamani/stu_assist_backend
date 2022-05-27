@@ -1,9 +1,6 @@
 <?php
 
 require("../config.php");
-// header('Access-Control-Allow-Origin: *'); //is needed for local port communications
-// header("Access-Control-Allow-Headers: Content-Type");
-
 
 $phoneNumber = $_POST['phone_number'];
 $OTP_digits = 5;
@@ -25,30 +22,37 @@ function createUser($walletID)
     global $phoneNumber, $currentDate, $currentTime;
     $user_query = "INSERT INTO User(phone, wallet_id, creation_date, creation_time)
     VALUES('$phoneNumber','$walletID','$currentDate','$currentTime')";
-    $result = dbQuery($user_query);
+    return dbQuery($user_query);
 }
 
 function createOTP()
 {
     global $OTPCode, $phoneNumber, $expirationDate, $expirationTime, $currentDate, $currentTime;
+
+    dbQuery("DELETE FROM OTP WHERE user_phone = '$phoneNumber'");
     $query = "INSERT INTO OTP(value, user_phone, expiration_date, expiration_time, creation_date, creation_time)
      VALUES('$OTPCode', '$phoneNumber', '$expirationDate','$expirationTime','$currentDate','$currentTime' )";
     return dbQuery($query);
 }
 
-$sql = "SELECT * FROM User WHERE phone = '$phoneNumber' and type = '1'";
-$result = dbQuery($sql);
+function cleanUp()
+{
+    global $phoneNumber;
+    dbQuery("DELETE FROM Wallet WHERE id IN (SELECT Wallet.id FROM Wallet,User WHERE User.wallet_id = Wallet.id AND User.phone = '$phoneNumber' AND User.type = '0')");
+    dbQuery("DELETE FROM User WHERE phone = '$phoneNumber' AND type = '0'");
+}
 
+$result = dbQuery("SELECT * FROM User WHERE phone = '$phoneNumber' and type = '1'");
+
+$isNewUser = false;
 if (dbNumRows($result) == 0) {
+    cleanUp();
     $wallet_id = createWallet();
     createUser($wallet_id);
+    $isNewUser = true;
 }
 
-$result = createOTP();
-
-if ($result == TRUE) {
-    sendResponseCode();
-} else {
-    sendResponseCode(false);
-}
-exit;
+if (createOTP())
+    cook(null, false, 'OTP was sent to ' . ($isNewUser ? 'a new user' : 'the existing user'));
+else
+    cook(null, true, 'Something went wrong');

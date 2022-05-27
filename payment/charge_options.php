@@ -1,52 +1,26 @@
 <?php
 
 require("../config.php");
-
-function getToken()
-{
-    $headers = getallheaders();
-    $val = $headers['Authorization'];
-    return trim(substr($val, 7));
-}
-
-function isValid($token)
-{
-    if ($token === null || $token === '')
-        return false;
-
-    $query = "SELECT * from Token WHERE value = '$token' AND is_valid = '1'";
-    $result = dbQuery($query);
-
-    return dbNumRows($result) > 0;
-}
+require_once("../user_utils.php");
 
 $token = getToken();
 
 if (isValid($token)) {
-    $query = "SELECT price, coupons FROM ChargeValues WHERE is_valid = '1' ";
-    $queryResult = dbQuery($query);
+    $queryResult = dbQuery("SELECT price, coupons FROM ChargeValues WHERE is_valid = '1' ");
     $result = [];
     $counter = 1;
     if ($queryResult == TRUE) {
         if (dbNumRows($queryResult) > 0) {
-            $data = [];
+            $chargeValues = [];
             while ($row = dbFetchAssoc($queryResult)) {
-                $r['id'] = $counter++;
-                $r['price'] = $row['price'];
-                $r['value'] = $row['coupons'];
-                array_push($data, $r);
+                $chargeValue['id'] = $counter++;
+                $chargeValue['price'] = $row['price'];
+                $chargeValue['value'] = $row['coupons'];
+                array_push($chargeValues, $chargeValue);
             }
-            $result['error'] = false;
-            $result['message'] = null;
-            $result['data'] = $data;
         }
-    } else {
-        $result['error'] = true;
-        $result['message'] = 'خطای سرور';
-        $result['data'] = [];
-    }
-
-    echo (json_encode($result));
-}else {
-    sendResponseCode(false);
-}
+        cook($chargeValues);
+    } else
+        cook(null, true, 'Something went wrong');
+} else
+    cook(null, true, 'invalid token');

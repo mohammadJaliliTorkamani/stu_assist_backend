@@ -57,9 +57,22 @@ function closeConn()
     mysqli_close($dbConn);
 }
 
-function sendResponseCode($success = true)
+function setResponseCode($code = 200)
 {
-    http_response_code($success ? 200 : 500);
+    http_response_code($code);
+}
+
+function cook($data, $error = false, $message = null)
+{
+    if ($message !== null)
+        $message = trim($message);
+
+    $result = [];
+    $result['error'] = $error;
+    $result['message'] = $message;
+    $result['data'] = $data;
+    setResponseCode($error ? 500 : 200);
+    echo json_encode($result);
 }
 /*
 * End of file database.php

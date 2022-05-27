@@ -16,14 +16,11 @@ function createToken($token)
     VALUES('$token', '$phoneNumber', '$expirationDate','$expirationTime','1','$currentDate','$currentTime' )";
     $result = dbQuery($query);
     if ($result == TRUE) {
-        $sql = "UPDATE User SET type = '1' WHERE phone = '$phoneNumber'";
-        dbQuery($sql);
-        $sql = "DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'";
-        dbQuery($sql);
-        echo $token;
-    } else {
-        sendResponseCode(false);
-    }
+        dbQuery("UPDATE User SET type = '1' WHERE phone = '$phoneNumber'");
+        dbQuery("DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'");
+        cook($token);
+    } else
+        cook(null, true, 'Something went wrong');
 }
 
 
@@ -36,15 +33,11 @@ if (dbNumRows($result) > 0) {
     $OTP_expirationDate = strtotime($row['expiration_date']);
     $OTP_expirationTime = strtotime($row['expiration_time']);
 
-    if (($OTP_expirationDate > strtotime($currentDate))
-        || (($OTP_expirationDate == strtotime($currentDate)) && ($OTP_expirationTime > strtotime($currentTime)))
-    ) {
-        $flavor = $phoneNumber . $currentDate . $currentTime . $OTP;
+    if (($OTP_expirationDate > strtotime($currentDate)) || (($OTP_expirationDate == strtotime($currentDate)) && ($OTP_expirationTime > strtotime($currentTime)))) {
+        $flavor = $phoneNumber . "#Mohammad" . $currentDate . "#Mohammad" . $currentTime . "#Mohammad" . $OTP;
         $token = hash('sha256', $flavor);
         createToken($token);
-    } else {
-        sendResponseCode(false);
-    }
-} else {
-    sendResponseCode(false);
-}
+    } else
+        cook(null, true, 'OTP Code is expired');
+} else
+    cook(null, true, 'No Valid OTP record was found');
