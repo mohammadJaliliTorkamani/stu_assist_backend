@@ -40,4 +40,4 @@ if (dbNumRows($result) > 0) {
     } else
         cook(null, true, 'OTP Code is expired');
 } else
-    cook(null, true, 'No Valid OTP record was found');
+    cook(null, true, 'No valid OTP record was found');
