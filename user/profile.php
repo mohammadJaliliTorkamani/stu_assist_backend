@@ -36,8 +36,8 @@ if (isValid($token)) {
             array_push($transactions, $transcation);
         }
         $data['transactions'] = $transactions;
+        cook($data);
     } else
         cook(null, true, 'Something went wrong');
-    cook($data);
 } else
     cook(null, true, 'invalid token');
