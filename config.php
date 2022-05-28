@@ -18,9 +18,9 @@ if ($method == "OPTIONS") {
 
 //database connection config
 $dbHost = 'localhost';
-$dbUser = 'root';
+$dbUser = 'stuassis_root';
 $dbPass = '&D93f6qe1';
-$dbName = 'stu_assist_db';
+$dbName = 'stuassis_db';
 
 // setting up the web root and server root
 $thisFile = str_replace('\\', '/', __FILE__);
