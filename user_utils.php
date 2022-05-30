@@ -30,6 +30,12 @@ function getPhoneNumber($token)
     return dbFetchAssoc($result)['user_phone'];
 }
 
+function getWalletID($token)
+{
+    $result = dbQuery("SELECT User.wallet_id FROM Token, User WHERE value = '$token' AND User.phone = Token.user_phone");
+    return dbFetchAssoc($result)['wallet_id'];
+}
+
 function getBalance($token)
 {
     $query = "SELECT balance FROM Token, User, Wallet 

@@ -62,7 +62,7 @@ function setResponseCode($code = 200)
     http_response_code($code);
 }
 
-function cook($data, $error = false, $message = null)
+function cook($data, $error = false, $message = null, $echo = true)
 {
     if ($message !== null)
         $message = trim($message);
@@ -72,7 +72,11 @@ function cook($data, $error = false, $message = null)
     $result['message'] = $message;
     $result['data'] = $data;
     setResponseCode($error ? 500 : 200);
-    echo json_encode($result);
+    
+    if ($echo)
+        echo json_encode($result);
+    else
+        return $result;
 }
 /*
 * End of file database.php

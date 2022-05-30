@@ -17,7 +17,7 @@ if (isValid($token)) {
     $walletID = $infoRow['wallet_id'];
     $data['balance'] = intval($infoRow['balance']);
 
-    $query = "SELECT issue_tracking_no AS ITN, card_number, bank, date, time FROM Charge WHERE wallet_id = '$walletID'";
+    $query = "SELECT payment_track_id AS ITN, card_number, bank, payment_date, payment_time FROM Charge WHERE wallet_id = '$walletID'";
     $query_result = dbQuery($query);
 
     if ($query_result == TRUE) {
@@ -25,13 +25,12 @@ if (isValid($token)) {
         $transactions = [];
         while ($row = dbFetchAssoc($query_result)) {
             $cadNumber = $row['card_number'];
-
             $transcation['id'] = $counter++;
             $transcation['issueTrackingNo'] = $row['ITN'];
-            $transcation['cardNo'] = trim(substr($cadNumber, 0, 3)) . '* **** **** *' . trim(substr($cadNumber, 13));
+            $transcation['cardNo'] = $row['card_number'];
             $transcation['bank'] = $row['bank'];
-            $transcation['time'] = $row['time'];
-            $transcation['date'] = $row['date'];
+            $transcation['time'] = $row['payment_time'];
+            $transcation['date'] = $row['payment_date'];
 
             array_push($transactions, $transcation);
         }
