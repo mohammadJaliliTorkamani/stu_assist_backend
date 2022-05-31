@@ -4,7 +4,6 @@ require("../config.php");
 require_once('../user_utils.php');
 
 $price = $_POST['price'];
-$value = $_POST['value'];
 
 $token = getToken();
 
@@ -16,12 +15,12 @@ function deleteExistingIncompleteChargeRecords($phoneNumber)
 function insertChargeRecord($phoneNumber, $walletID)
 {
     deleteExistingIncompleteChargeRecords($phoneNumber);
-    global $price, $value;
+    global $price;
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i:s');
 
-    $query = "INSERT INTO Charge(user_phone, wallet_id, price, coupons, record_creation_date, record_creation_time) 
-        VALUES ('$phoneNumber','$walletID','$price','$value','$currentDate','$currentTime')";
+    $query = "INSERT INTO Charge(user_phone, wallet_id, price, record_creation_date, record_creation_time) 
+        VALUES ('$phoneNumber','$walletID','$price','$currentDate','$currentTime')";
     $result = dbQuery($query);
     return $result == True ? dbInsertId() : -1;
 }
@@ -42,7 +41,7 @@ function pay($orderID, $phoneNumber)
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'X-API-KEY: 394a641a-c18b-49c8-a259-11225529ed9a',
-        'X-SANDBOX: 1'
+        'X-SANDBOX: 0'
     ));
 
     $result = curl_exec($ch);
@@ -52,8 +51,8 @@ function pay($orderID, $phoneNumber)
 
 function isValidFinancialInfo()
 {
-    global $price, $value;
-    $query = "SELECT id FROM ChargeValues WHERE price = '$price' AND coupons = '$value' AND is_valid = '1'";
+    global $price;
+    $query = "SELECT id FROM ChargeValues WHERE price = '$price' AND is_valid = '1'";
     $result = dbQuery($query);
     return dbNumRows($result) > 0;
 }

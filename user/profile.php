@@ -17,7 +17,7 @@ if (isValid($token)) {
     $walletID = $infoRow['wallet_id'];
     $data['balance'] = intval($infoRow['balance']);
 
-    $query = "SELECT payment_track_id AS ITN, card_number, bank, payment_date, payment_time FROM Charge WHERE wallet_id = '$walletID'";
+    $query = "SELECT payment_track_id AS ITN, card_number, bank, payment_date, payment_time, order_id FROM Charge WHERE wallet_id = '$walletID'";
     $query_result = dbQuery($query);
 
     if ($query_result == TRUE) {
@@ -28,7 +28,7 @@ if (isValid($token)) {
             $transcation['id'] = $counter++;
             $transcation['issueTrackingNo'] = $row['ITN'];
             $transcation['cardNo'] = $row['card_number'];
-            $transcation['bank'] = $row['bank'];
+            $transcation['orderID'] = intval($row['order_id']);
             $transcation['time'] = $row['payment_time'];
             $transcation['date'] = $row['payment_date'];
 

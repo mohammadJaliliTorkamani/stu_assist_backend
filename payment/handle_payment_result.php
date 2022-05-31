@@ -59,7 +59,7 @@ function verifyPayment($paymentID, $orderID)
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'X-API-KEY: 394a641a-c18b-49c8-a259-11225529ed9a',
-        'X-SANDBOX: 1',
+        'X-SANDBOX: 0',
     ));
 
     $result = curl_exec($ch);
@@ -104,6 +104,23 @@ function getStatusCodeMeaning($status)
     return "خطا در شناسایی نتیحه پرداخت";
 }
 
+function getAmount($orderID)
+{
+    $query = "SELECT price FROM Charge WHERE order_id = '$orderID'";
+    $result = dbQuery($query);
+    return intval(dbFetchAssoc($result)['price']);
+}
+
+function increaseBalance($orderID)
+{
+    $result = dbQuery("SELECT Token.value as token FROM Charge,Token, User WHERE Charge.order_id = '$orderID' AND Token.user_phone = User.phone AND 
+    Charge.user_phone = User.phone");
+    $token = dbFetchAssoc($result)['token'];
+    $price = getAmount($orderID);
+    $walletID = getWalletID($token);
+    return dbQuery("UPDATE Wallet SET balance = balance + '$price' WHERE id = '$walletID'");
+}
+
 $result = null;
 
 if (isValidRecordInfo()) {
@@ -126,20 +143,29 @@ if (isValidRecordInfo()) {
                     $paymentTime,
                     $verifiyResult->payment->track_id
                 ) == TRUE) {
-                    $result = cook(getStatusCodeMeaning($verifiyResult->status));
+                    $data['card_number'] = $verifiyResult->payment->card_no;
+                    $data['order_id'] = $verifiyResult->order_id;
+                    $data['amount'] = $verifiyResult->amount;
+                    $data['date'] = $verifiyResult->date;
+                    $data['track_id'] = $verifiyResult->payment->track_id;
+                    $data['status_meaning'] = getStatusCodeMeaning($verifiyResult->status);
+                    if (increaseBalance($orderID) == TRUE)
+                        $result = cook($data, false, null, false);
+                    else
+                        $result = cook(null, true, 'خطای سرور - ۴', false);
                 } else
-                    $result = cook(null, true, 'خطای سرور - ۳');
+                    $result = cook(null, true, 'خطای سرور - ۳', false);
             } else
-                $result = cook(null, true, 'خطای سرور - ۲');
+                $result = cook(null, true, 'خطای سرور - ۲', false);
         }
     } else
-        $result = cook(null, true, 'خطای سرور');
+        $result = cook(null, true, 'خطای سرور', false);
 } else
-    $result = cook(null, true, 'invalid payment result');
+    $result = cook(null, true, 'invalid payment result', false);
 
-if ($result !== null) {
-    session_start();
-    $_SESSION['result'] = $result;
-    header('Location: https://stu-assist.ir/payment-result');
-    
-}
+//result is not used for the current version!
+$query =  "<script type='text/javascript' language='Javascript'>
+    window.open('https://stu-assist.ir/payment-result');</script>";
+header("location: https://stu-assist.ir/payment-result");
+
+exit();

@@ -6,7 +6,7 @@ require_once("../user_utils.php");
 $token = getToken();
 
 if (isValid($token)) {
-    $queryResult = dbQuery("SELECT price, coupons FROM ChargeValues WHERE is_valid = '1' ");
+    $queryResult = dbQuery("SELECT price FROM ChargeValues WHERE is_valid = '1' ");
     $result = [];
     $counter = 1;
     if ($queryResult == TRUE) {
@@ -15,7 +15,6 @@ if (isValid($token)) {
             while ($row = dbFetchAssoc($queryResult)) {
                 $chargeValue['id'] = $counter++;
                 $chargeValue['price'] = $row['price'];
-                $chargeValue['value'] = $row['coupons'];
                 array_push($chargeValues, $chargeValue);
             }
         }

@@ -72,11 +72,11 @@ function cook($data, $error = false, $message = null, $echo = true)
     $result['message'] = $message;
     $result['data'] = $data;
     setResponseCode($error ? 500 : 200);
-    
+
     if ($echo)
         echo json_encode($result);
     else
-        return $result;
+        return json_encode($result);
 }
 /*
 * End of file database.php
