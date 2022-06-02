@@ -54,7 +54,7 @@ function sendSMS()
         $APIKey = "30cc1df5415d4e2361c82a02";
         $SecretKey = "KimiaMohammad_L95";
         $APIURL = "https://ws.sms.ir/";
-        $templateID = "66712";
+        $templateID = "66723";
 
         // message data
         $data = array(
