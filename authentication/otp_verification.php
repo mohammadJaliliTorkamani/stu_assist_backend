@@ -23,8 +23,6 @@ function createToken($token)
         cook(null, true, 'Something went wrong');
 }
 
-
-
 $sql = "SELECT expiration_date, expiration_time FROM OTP WHERE user_phone = '$phoneNumber' and value = '$OTP'";
 $result = dbQuery($sql);
 

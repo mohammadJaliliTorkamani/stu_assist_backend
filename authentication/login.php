@@ -52,25 +52,27 @@ function sendSMS()
 
         // your sms.ir panel configuration
         $APIKey = "30cc1df5415d4e2361c82a02";
-
         $SecretKey = "KimiaMohammad_L95";
-        $LineNumber = "30002101001825";
         $APIURL = "https://ws.sms.ir/";
+        $templateID = "66712";
 
-        // your mobile numbers
-        $MobileNumbers = array($phoneNumber);
+        // message data
+        $data = array(
+            "ParameterArray" => array(
+                array(
+                    "Parameter" => "VerificationCode",
+                    "ParameterValue" => $OTPCode
+                )
+            ),
+            "Mobile" => $phoneNumber,
+            "TemplateId" => $templateID
+        );
 
-
-        // your text messages
-        $Messages = array('با تشکر از ثبت نام شما، کد فعالسازی عبارت است از : ' . $OTPCode . "    Stu-Assist.ir");
-
-        // sending date
-        $SendDateTime = date("Y-m-d") . "T" . date("H:i:s");
-
-        $SmsIR_SendMessage = new SmsIR_SendMessage($APIKey, $SecretKey, $LineNumber, $APIURL);
-        $SendMessage = $SmsIR_SendMessage->sendMessage($MobileNumbers, $Messages, $SendDateTime);
-        var_dump($SendMessage);
+        $SmsIR_UltraFastSend = new SmsIR_UltraFastSend($APIKey, $SecretKey, $APIURL);
+        $UltraFastSend = $SmsIR_UltraFastSend->ultraFastSend($data);
+        var_dump($UltraFastSend);
     } catch (Exception $e) {
+        // echo 'Error UltraFastSend : '.$e->getMessage();
     }
 }
 

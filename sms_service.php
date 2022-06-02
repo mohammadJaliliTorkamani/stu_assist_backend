@@ -1,22 +1,20 @@
 <?php
 
 /**
- * ReceiveMessageByLastId File Restful API PHP Sample Codes
+ * UltraFastSend File Restful API PHP Sample Codes
  * 
  * PHP version 5.6.23 | 7.2.12
  * 
  * @category  PHPSampleCodes
  * @package   SampleCodes
- 
  * @copyright 2018 The Ide Pardazan (ipe.ir) PHP Group. All rights reserved.
  * @license   https://sms.ir/ ipe license
-
  * @version   IPE: 2.0
  * @link      https://sms.ir/ Documentation of sms.ir Restful API PHP Sample Codes.
  */
 
 /**
- * ReceiveMessageByLastId Class Restful API PHP Sample Codes
+ * UltraFastSend Class Restful API PHP Sample Codes
  * 
  * @category  PHPSampleCodesClass
  * @package   SampleCodesClass
@@ -25,17 +23,17 @@
  * @license   https://sms.ir/ ipe license
  * @link      https://sms.ir/ Documentation of sms.ir 
  */
-class SmsIR_SendMessage
+class SmsIR_UltraFastSend
 {
 
     /**
-     * Gets API Message Send Url.
+     * Gets API Ultra Fast Send Url.
      *
      * @return string Indicates the Url
      */
-    protected function getAPIMessageSendUrl() 
+    protected function getAPIUltraFastSendUrl()
     {
-        return "api/MessageSend";
+        return "api/UltraFastSend";
     }
 
     /**
@@ -51,49 +49,35 @@ class SmsIR_SendMessage
     /**
      * Gets config parameters for sending request.
      *
-     * @param string $APIKey     API Key
-     * @param string $SecretKey  Secret Key
-     * @param string $LineNumber Line Number
-     * @param string $APIURL     API URL
-
+     * @param string $APIKey    API Key
+     * @param string $SecretKey Secret Key
+     * @param string $APIURL    API URL
      * 
      * @return void
      */
-    public function __construct($APIKey, $SecretKey, $LineNumber, $APIURL)
+    public function __construct($APIKey, $SecretKey, $APIURL)
     {
         $this->APIKey = $APIKey;
         $this->SecretKey = $SecretKey;
-        $this->LineNumber = $LineNumber;
         $this->APIURL = $APIURL;
     }
 
     /**
-     * Send sms.
+     * Ultra Fast Send Message.
      *
-     * @param MobileNumbers[] $MobileNumbers array structure of mobile numbers
-     * @param Messages[]      $Messages      array structure of messages
-     * @param string          $SendDateTime  Send Date Time
-
+     * @param data[] $data array structure of message data
      * 
      * @return string Indicates the sent sms result
      */
-
-    public function sendMessage($MobileNumbers, $Messages, $SendDateTime = '') 
+    public function ultraFastSend($data)
     {
         $token = $this->_getToken($this->APIKey, $this->SecretKey);
-
         if ($token != false) {
-            $postData = array(
-                'Messages' => $Messages,
-                'MobileNumbers' => $MobileNumbers,
-                'LineNumber' => $this->LineNumber,
-                'SendDateTime' => $SendDateTime,
-                'CanContinueInCaseOfError' => 'false'
-            );
+            $postData = $data;
 
-            $url = $this->APIURL.$this->getAPIMessageSendUrl();
-            $SendMessage = $this->_execute($postData, $url, $token);
-            $object = json_decode($SendMessage);
+            $url = $this->APIURL . $this->getAPIUltraFastSendUrl();
+            $UltraFastSend = $this->_execute($postData, $url, $token);
+            $object = json_decode($UltraFastSend);
 
             $result = false;
             if (is_object($object)) {
@@ -111,7 +95,6 @@ class SmsIR_SendMessage
      * Gets token key for all web service requests.
      *
      * @return string Indicates the token key
-
      */
     private function _getToken()
     {
@@ -122,10 +105,11 @@ class SmsIR_SendMessage
         );
         $postString = json_encode($postData);
 
-        $ch = curl_init($this->APIURL.$this->getApiTokenUrl());
+        $ch = curl_init($this->APIURL . $this->getApiTokenUrl());
         curl_setopt(
-            $ch, CURLOPT_HTTPHEADER, array(
-
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
                 'Content-Type: application/json'
             )
         );
@@ -154,7 +138,6 @@ class SmsIR_SendMessage
         return $resp;
     }
 
-
     /**
      * Executes the main method.
      *
@@ -166,14 +149,15 @@ class SmsIR_SendMessage
      */
     private function _execute($postData, $url, $token)
     {
-
         $postString = json_encode($postData);
 
         $ch = curl_init($url);
         curl_setopt(
-            $ch, CURLOPT_HTTPHEADER, array(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
                 'Content-Type: application/json',
-                'x-sms-ir-secure-token: '.$token
+                'x-sms-ir-secure-token: ' . $token
             )
         );
         curl_setopt($ch, CURLOPT_HEADER, false);
