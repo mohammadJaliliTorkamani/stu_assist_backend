@@ -7,13 +7,12 @@ $token = getToken();
 
 if (isValid($token)) {
     $data = [];
-    $infoQuery = "SELECT name, last_name, balance, wallet_id 
+    $infoQuery = "SELECT balance, wallet_id 
     FROM Token, User, Wallet 
     WHERE User.wallet_id = Wallet.id AND Token.value = '$token' AND User.phone = Token.user_phone";
 
     $info_result = dbQuery($infoQuery);
     $infoRow = dbFetchAssoc($info_result);
-    $data['fullName'] = $infoRow['name'] . ' ' . $infoRow['last_name'];
     $walletID = $infoRow['wallet_id'];
     $data['balance'] = intval($infoRow['balance']);
 
@@ -27,7 +26,6 @@ if (isValid($token)) {
             $cadNumber = $row['card_number'];
             $transcation['id'] = $counter++;
             $transcation['issueTrackingNo'] = $row['ITN'];
-            $transcation['cardNo'] = $row['card_number'];
             $transcation['orderID'] = intval($row['order_id']);
             $transcation['time'] = $row['payment_time'];
             $transcation['date'] = $row['payment_date'];
