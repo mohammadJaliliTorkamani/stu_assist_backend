@@ -11,7 +11,7 @@ $week = $_GET['week'];
 
 function validECTSData($time, $unit, $week)
 {
-    if (($time <= 0) || ($time > 120) || ($unit < 1) || ($unit > 20) || ($week < 10) || ($week > 25))
+    if (($time <= 0) || ($time > 120) || ($unit <= 0) || ($unit > 20) || ($week < 10) || ($week > 25))
         return false;
     else if ($week == 0)
         return false;
