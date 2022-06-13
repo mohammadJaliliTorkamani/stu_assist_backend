@@ -4,6 +4,7 @@ require("../config.php");
 require_once('../user_utils.php');
 
 $price = $_POST['price'];
+$numberOfRequests = $_POST['number_of_requests'];
 
 $token = getToken();
 
@@ -51,8 +52,8 @@ function pay($orderID, $phoneNumber)
 
 function isValidFinancialInfo()
 {
-    global $price;
-    $query = "SELECT id FROM ChargeValues WHERE price = '$price' AND is_valid = '1'";
+    global $price, $numberOfRequests;
+    $query = "SELECT id FROM ChargeValues WHERE price = '$price' AND number_of_requests = '$numberOfRequests' AND is_valid = '1'";
     $result = dbQuery($query);
     return dbNumRows($result) > 0;
 }
