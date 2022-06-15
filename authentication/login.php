@@ -76,7 +76,7 @@ function sendSMS()
     }
 }
 
-$result = dbQuery("SELECT * FROM User WHERE phone = '$phoneNumber' and type = '1'");
+$result = dbQuery("SELECT phone FROM User WHERE phone = '$phoneNumber' and type = '1'");
 
 $isNewUser = false;
 if (dbNumRows($result) == 0) {

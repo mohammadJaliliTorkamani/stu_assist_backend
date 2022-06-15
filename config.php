@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set("Asia/Tehran");
 ini_set('display_errors', 'On');
 
 error_reporting(E_ALL);
