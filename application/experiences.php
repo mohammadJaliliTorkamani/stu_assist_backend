@@ -42,8 +42,9 @@ if (isValid($token)) {
     FROM Experience 
     WHERE verified = '1'
     ORDER BY creation_date, creation_time DESC";
-    
+
     $result = dbQuery($query);
+    $counter = 1;
     while ($row = dbFetchAssoc($result)) {
         $_id = intval($row['id']);
         $_creationDate = $row['creation_date'];
@@ -55,10 +56,12 @@ if (isValid($token)) {
         $user = getUserInfo($phoneNumber);
         $admissionStatus = getAdmissionStatus($phoneNumber, $_universityID);
 
+        $record['id'] = $counter++;
         $record['fullName'] = $user['name'] . ' ' . $user['last_name'];
         $record['experienceDate'] = $_creationDate;
         $record['experienceTime'] = $_creationTime;
         $record['admissionStatus'] = $admissionStatus;
+        $record['comment'] = $_comment;
         $record['universityName'] = $university['name'];
         $record['universityCountry'] = $university['country'];
         $record['universityCity'] = $university['city'];
