@@ -3,8 +3,6 @@
 require("../config.php");
 require_once('../user_utils.php');
 
-$token = getToken();
-
 function getLanguages($translationOfficeID)
 {
     $query = "SELECT persian_equivalent 
@@ -17,20 +15,17 @@ function getLanguages($translationOfficeID)
 
     return $languages;
 }
-if (isValid($token)) {
-    $query = "SELECT id, name, website, phone, postal_address, latitude, longitude FROM Translation_Office WHERE available = '1'";
-    $result = dbQuery($query);
-    $offices = [];
-    $counter = 1;
-    while ($row = dbFetchAssoc($result)) {
-        $office['id'] = $counter++;
-        $office['name'] = $row['name'];
-        $office['website'] = $row['website'];
-        $office['phoneNumber'] = $row['phone'];
-        $office['address'] = ['name' => $row['postal_address'], 'latitude' => $row['latitude'], 'longitude' => $row['longitude']];
-        $office['languages'] = getLanguages(intval($office['id']));
-        array_push($offices, $office);
-    }
-    cook($offices);
-} else
-    cook(null, true, 'invalid token');
+$query = "SELECT id, name, website, phone, postal_address, latitude, longitude FROM Translation_Office WHERE available = '1'";
+$result = dbQuery($query);
+$offices = [];
+$counter = 1;
+while ($row = dbFetchAssoc($result)) {
+    $office['id'] = $counter++;
+    $office['name'] = $row['name'];
+    $office['website'] = $row['website'];
+    $office['phoneNumber'] = $row['phone'];
+    $office['address'] = ['name' => $row['postal_address'], 'latitude' => $row['latitude'], 'longitude' => $row['longitude']];
+    $office['languages'] = getLanguages(intval($office['id']));
+    array_push($offices, $office);
+}
+cook($offices);

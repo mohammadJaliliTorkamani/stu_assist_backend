@@ -3,8 +3,6 @@
 require("../config.php");
 require_once('../user_utils.php');
 
-$token = getToken();
-
 function getUniversityInfo($universityID)
 {
     $query = "SELECT name, country, city FROM University WHERE id = '$universityID'";
@@ -33,41 +31,37 @@ function getAdmissionStatus($phoneNumber, $universityID)
     return dbFetchAssoc($result)['status'] == '1' ? true : false;
 }
 
-if (isValid($token)) {
+$finalResult = [];
 
-    $finalResult = [];
-
-    $phoneNumber = getPhoneNumber($token);
-    $query = "SELECT id, creation_date, creation_time, comment, university_id
+$query = "SELECT id, creation_date, creation_time, comment, university_id, user_phone
     FROM Experience 
     WHERE verified = '1'
     ORDER BY creation_date, creation_time DESC";
 
-    $result = dbQuery($query);
-    $counter = 1;
-    while ($row = dbFetchAssoc($result)) {
-        $_id = intval($row['id']);
-        $_creationDate = $row['creation_date'];
-        $_creationTime = $row['creation_time'];
-        $_comment = $row['comment'];
-        $_universityID = intval($row['university_id']);
+$result = dbQuery($query);
+$counter = 1;
+while ($row = dbFetchAssoc($result)) {
+    $_id = intval($row['id']);
+    $_creationDate = $row['creation_date'];
+    $_creationTime = $row['creation_time'];
+    $_comment = $row['comment'];
+    $_universityID = intval($row['university_id']);
 
-        $university = getUniversityInfo($_universityID);
-        $user = getUserInfo($phoneNumber);
-        $admissionStatus = getAdmissionStatus($phoneNumber, $_universityID);
+    $phoneNumber = $row['user_phone'];
+    $university = getUniversityInfo($_universityID);
+    $user = getUserInfo($phoneNumber);
+    $admissionStatus = getAdmissionStatus($phoneNumber, $_universityID);
 
-        $record['id'] = $counter++;
-        $record['fullName'] = $user['name'] . ' ' . $user['last_name'];
-        $record['experienceDate'] = $_creationDate;
-        $record['experienceTime'] = $_creationTime;
-        $record['admissionStatus'] = $admissionStatus;
-        $record['comment'] = $_comment;
-        $record['universityName'] = $university['name'];
-        $record['universityCountry'] = $university['country'];
-        $record['universityCity'] = $university['city'];
+    $record['id'] = $counter++;
+    $record['fullName'] = $user['name'] . ' ' . $user['last_name'];
+    $record['experienceDate'] = $_creationDate;
+    $record['experienceTime'] = $_creationTime;
+    $record['admissionStatus'] = $admissionStatus;
+    $record['comment'] = $_comment;
+    $record['universityName'] = $university['name'];
+    $record['universityCountry'] = $university['country'];
+    $record['universityCity'] = $university['city'];
 
-        array_push($finalResult, $record);
-    }
-    cook($finalResult);
-} else
-    cook(null, true, 'invalid token');
+    array_push($finalResult, $record);
+}
+cook($finalResult);
