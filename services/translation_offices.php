@@ -15,7 +15,7 @@ function getLanguages($translationOfficeID)
 
     return $languages;
 }
-$query = "SELECT id, name, website, phone, postal_address, latitude, longitude FROM Translation_Office WHERE available = '1'";
+$query = "SELECT id, name, website, phone, postal_address, latitude, longitude FROM Translation_Office WHERE available = '1' ORDER BY name ASC";
 $result = dbQuery($query);
 $offices = [];
 $counter = 1;
