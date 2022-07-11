@@ -13,7 +13,7 @@ $OTPCode = rand(pow(10, $OTP_digits - 1), pow(10, $OTP_digits) - 1);
 
 function createWallet()
 {
-    $wallet_query = "INSERT INTO Wallet(balance) VALUES ('0')";
+    $wallet_query = "INSERT INTO Wallet(balance) VALUES ('20000')";
     dbQuery($wallet_query);
     return dbInsertId();
 }
@@ -76,7 +76,7 @@ function sendSMS()
     }
 }
 
-$result = dbQuery("SELECT phone FROM User WHERE phone = '$phoneNumber' and type = '1'");
+$result = dbQuery("SELECT * FROM User WHERE phone = '$phoneNumber' and type = '1'");
 
 $isNewUser = false;
 if (dbNumRows($result) == 0) {
