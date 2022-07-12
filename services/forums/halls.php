@@ -12,11 +12,12 @@ function getLastTopicID($hallID)
 function getLastTopicOf($hallID)
 {
     $lastTopicID = getLastTopicID($hallID);
-    $query = "SELECT name, creation_date, creation_time FROM Topic WHERE id = '$lastTopicID' AND available = '1'";
+    $query = "SELECT name, creation_date, creation_time, number_of_views FROM Topic WHERE id = '$lastTopicID' AND available = '1'";
     $result = dbQuery($query);
     $row = dbFetchAssoc($result);
     $topic['id'] = (int)$lastTopicID;
     $topic['name'] = $row['name'];
+    $topic['numberOfViews'] = (int)$row['number_of_views'];
 
     $dateTime = strtotime($row['creation_date'] . " " . $row['creation_time']);
     $currentDateTime = strtotime(date('Y-m-d') . " " . date('H:i:s'));

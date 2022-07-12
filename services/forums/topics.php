@@ -11,13 +11,15 @@ function getNumberOfComments($topicIdD)
     return dbNumRows($result);
 }
 
-function getLastCommentID($topicID){
+function getLastCommentID($topicID)
+{
     $query = "SELECT id FROM Comment WHERE topic = '$topicID'  ORDER BY id DESC";
     $result = dbQuery($query);
     return dbFetchAssoc($result)['id'];
 }
 
-function getLastCommentOf($topicID){
+function getLastCommentOf($topicID)
+{
     $lastCommentID = getLastCommentID($topicID);
     $query = "SELECT content, creation_date, creation_time FROM Comment WHERE topic = '$topicID' AND available = '1'";
     $result = dbQuery($query);
@@ -41,7 +43,7 @@ function getLastCommentOf($topicID){
     return $comment;
 }
 
-$query = "SELECT Topic.id AS id, Topic.name AS name, Topic.content as content FROM Topic, Topic_Hall_Relation_Own WHERE Topic_Hall_Relation_Own.hall = '$hall' AND
+$query = "SELECT Topic.id AS id, Topic.name AS name, Topic.content as content, Topic.number_of_views AS number_of_views FROM Topic, Topic_Hall_Relation_Own WHERE Topic_Hall_Relation_Own.hall = '$hall' AND
 Topic.available = '1' AND Topic.id = Topic_Hall_Relation_Own.topic";
 $result = dbQuery($query);
 $topics = [];
@@ -49,6 +51,7 @@ while ($row = dbFetchAssoc($result)) {
     $topic['id'] = (int)$row['id'];
     $topic['name'] = $row['name'];
     $topic['content'] = $row['content'];
+    $topic['numberOfViews'] = (int)$row['number_of_views'];
 
     $topic['numberOfComments'] = getNumberOfComments((int)$row['id']);
     $topic['lastComment'] = $topic['numberOfComments'] > 0 ? getLastCommentOf((int)$row['id']) : 0;
