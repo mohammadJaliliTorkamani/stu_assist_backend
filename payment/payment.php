@@ -1,7 +1,7 @@
 <?php
 
 require("../config.php");
-require_once('../user_utils.php');
+require_once('../utils/user_utils.php');
 
 $price = $_POST['price'];
 $numberOfRequests = $_POST['number_of_requests'];

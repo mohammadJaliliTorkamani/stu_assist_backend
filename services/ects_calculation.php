@@ -1,8 +1,8 @@
 <?php
 
 require_once("../config.php");
-require_once("../user_utils.php");
-require_once("../service_utils.php");
+require_once("../utils/user_utils.php");
+require_once("../utils/service_utils.php");
 
 $SERVICE_NAME = 'ECTS_Basic_1';
 $time = $_GET['time'];
