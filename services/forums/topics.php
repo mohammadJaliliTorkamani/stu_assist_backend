@@ -15,7 +15,7 @@ while ($row = dbFetchAssoc($result)) {
     $topic['content'] = $row['content'];
     $topic['numberOfViews'] = (int)$row['number_of_views'];
     $topic['numberOfComments'] = getNumberOfComments((int)$row['id']);
-    $topic['lastComment'] = $topic['numberOfComments'] > 0 ? getLastComment((int)$row['id']) : 0;
+    $topic['lastComment'] = getLastComment((int)$row['id']);
     array_push($topics, $topic);
 }
 
