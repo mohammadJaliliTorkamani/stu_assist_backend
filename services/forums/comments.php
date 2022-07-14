@@ -1,0 +1,22 @@
+<?php
+
+require("../../config.php");
+require_once('../../utils/comments_utils.php');
+
+$comments = [];
+$topicID = $_GET['id'];
+
+$query = "SELECT id, content, creator, creation_date, creation_time 
+FROM Comment 
+WHERE topic = '$topicID' AND available = '1' ORDER BY creation_date, creation_time DESC";
+$result = dbQuery($query);
+
+while ($row = dbFetchAssoc($result)) {
+    $comment['id'] = (int)$row['id'];
+    $comment['message'] = $row['content'];
+    $comment['creatorID'] = (int)$row['creator'];
+    $comment['commentDateTime'] = $row['creation_date'] . " " . $row['creation_time'];
+    array_push($comments, $comment);
+}
+
+cook($comments);
