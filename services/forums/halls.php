@@ -14,10 +14,8 @@ while ($row = dbFetchAssoc($result)) {
     $hall['name'] = $row['name'];
     $hall['descriptor'] = $row['descriptor'];
     $hall['numberOfTopics'] = getNumberOfTopics($row['id']);
+    $hall['lastTopic'] = getLastTopic($row['id']);
 
-    if ($hall['numberOfTopics'] > 0)
-        $hall['lastTopic'] = getLastTopic($row['id']);
-        
     array_push($halls, $hall);
 }
 

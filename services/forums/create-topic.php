@@ -38,8 +38,12 @@ if (isValid($token)) {
     if (hallExistsInCategory($category, $hallID)) {
         if (isNewTopic($name)) {
             $craetorID = getUserID($token);
-            $topicID = createTopic($name, $content, $hallID, $craetorID);
-            cook($topicID);
+            if (hasValidFullName($craetorID)) {
+                $topicID = createTopic($name, $content, $hallID, $craetorID);
+                cook($topicID);
+            } else {
+                cook(null, true, 'لطفا ابتدا از حساب کاربری خود نام و نام خانوادگی خود را تکمیل نمایید');
+            }
         } else
             cook(null, true, 'تاپیک مورد نظر تکراری می باشد');
     } else {

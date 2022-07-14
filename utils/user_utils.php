@@ -30,6 +30,19 @@ function getPhoneNumber($token)
     return dbFetchAssoc($result)['user_phone'];
 }
 
+function hasValidFullName($userID)
+{
+    $result = dbQuery("SELECT name, last_name FROM User WHERE id = '$userID'");
+    $row = dbFetchAssoc($result);
+    $name = $row['name'];
+    $lastName = $row['last_name'];
+
+    if ($name == null || $name === '' || $name === ' ' || $lastName == null || $lastName === '' || $lastName === ' '){
+        return false;
+    }
+    return true;
+}
+
 function getUserID($token)
 {
     $result = dbQuery("SELECT User.id AS id FROM User, Token WHERE Token.value = '$token'");

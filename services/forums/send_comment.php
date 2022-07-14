@@ -27,8 +27,11 @@ $token = getToken();
 if (isValid($token)) {
     if (topicExists($topicID)) {
         $craetorID = getUserID($token);
-        createComment($craetorID, $content, $topicID);
-        cook(null);
+        if (hasValidFullName($craetorID)) {
+            createComment($craetorID, $content, $topicID);
+            cook(null);
+        } else
+                cook(null, true, 'لطفا ابتدا از حساب کاربری خود نام و نام خانوادگی خود را تکمیل نمایید');
     } else {
         cook(null, true, 'داده های ورودی اشتباه است');
     }
