@@ -45,7 +45,7 @@ function hasValidFullName($userID)
 
 function getUserID($token)
 {
-    $result = dbQuery("SELECT User.id AS id FROM User, Token WHERE Token.value = '$token'");
+    $result = dbQuery("SELECT User.id AS id FROM User, Token WHERE Token.value = '$token' AND User.phone = Token.user_phone");
     return dbFetchAssoc($result)['id'];
 }
 
