@@ -6,10 +6,7 @@ require_once('../../utils/comments_utils.php');
 $topics = [];
 $hall = $_GET['hall'];
 
-$query = "SELECT Topic.id AS id, Topic.name AS name, Topic.content as content, 
-Topic.number_of_views AS number_of_views FROM Topic, Topic_Hall_Relation_Own 
-WHERE Topic_Hall_Relation_Own.hall = '$hall' AND Topic.available = '1' AND 
-Topic.id = Topic_Hall_Relation_Own.topic";
+$query = "SELECT id, name, content, number_of_views FROM Topic WHERE hall = '$hall' AND available = '1'";
 
 $result = dbQuery($query);
 while ($row = dbFetchAssoc($result)) {

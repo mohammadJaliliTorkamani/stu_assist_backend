@@ -28,14 +28,14 @@ function getLastTopic($hallID)
 
 function getNumberOfTopics($hallID)
 {
-    $query = "SELECT id FROM Topic_Hall_Relation_Own WHERE hall = '$hallID'";
+    $query = "SELECT id FROM Topic WHERE hall = '$hallID'";
     $result = dbQuery($query);
     return dbNumRows($result);
 }
 
 function getLastTopicID($hallID)
 {
-    $query = "SELECT id FROM Topic_Hall_Relation_Own WHERE hall = '$hallID'  ORDER BY id DESC";
+    $query = "SELECT id FROM Topic WHERE hall = '$hallID'  ORDER BY id DESC";
     $result = dbQuery($query);
     return dbFetchAssoc($result)['id'];
 }
