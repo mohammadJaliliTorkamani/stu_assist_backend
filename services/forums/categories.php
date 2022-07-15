@@ -7,8 +7,8 @@ $result = dbQuery($query);
 $categories = [];
 
 while ($row = dbFetchAssoc($result)) {
-    $category['name'] = $row['name'];
-    $category['descriptor'] = $row['descriptor'];
+    $category = array('name' => $row['name'], 'descriptor' => $row['descriptor']);
     array_push($categories, $category);
 }
+
 cook($categories);
