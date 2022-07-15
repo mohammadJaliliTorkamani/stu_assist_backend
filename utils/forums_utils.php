@@ -49,3 +49,10 @@ function getLastTopicID($hallID)
         return null;
     return dbFetchAssoc($result)['id'];
 }
+
+function topicExists($topicID)
+{
+    $query = "SELECT id FROM Topic WHERE id = '$topicID' AND available = '1'";
+    $result = dbQuery($query);
+    return dbNumRows($result) > 0;
+}

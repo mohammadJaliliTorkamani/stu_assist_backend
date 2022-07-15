@@ -37,3 +37,12 @@ function getLastComment($topicID)
     }
     return $comment;
 }
+
+function createComment($craetorID, $content, $topicID)
+{
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i:s');
+    $query = "INSERT INTO Comment(content, creator, topic, creation_date, creation_time) 
+    VALUES ('$content', '$craetorID', '$topicID', '$currentDate', '$currentTime')";
+    return dbQuery($query);
+}
