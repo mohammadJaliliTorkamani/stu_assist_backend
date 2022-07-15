@@ -10,11 +10,13 @@ $query = "SELECT id, name, descriptor FROM Hall WHERE category = '$category' AND
 $result = dbQuery($query);
 
 while ($row = dbFetchAssoc($result)) {
-    $hall['id'] = (int)$row['id'];
-    $hall['name'] = $row['name'];
-    $hall['descriptor'] = $row['descriptor'];
-    $hall['numberOfTopics'] = getNumberOfTopics($row['id']);
-    $hall['lastTopic'] = getLastTopic($row['id']);
+    $hall = array(
+        'id' => (int)$row['id'],
+        'name' => $row['name'],
+        'descriptor' => $row['descriptor'],
+        'numberOfTopics' => getNumberOfTopics($row['id']),
+        'lastTopic' => getLastTopic($row['id'])
+    );
 
     array_push($halls, $hall);
 }
