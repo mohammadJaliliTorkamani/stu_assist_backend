@@ -9,11 +9,18 @@ $query = "SELECT name, content, creator, creation_date, creation_time FROM Topic
 WHERE id = '$topicID' AND Topic.available = '1'";
 
 $result = dbQuery($query);
-$row = dbFetchAssoc($result);
-$topic['id'] = (int)$topicID;
-$topic['name'] = $row['name'];
-$topic['content'] = $row['content'];
-$topic['creatorID'] = (int)$row['creator'];
-$topic['postDateTime'] = $row['creation_date'] . " " . $row['creation_time'];
+$numberOfRecords = dbNumRows($result);
 
-cook($topic);
+if ($numberOfRecords > 0) {
+    $row = dbFetchAssoc($result);
+
+    $topic = array(
+        'id' => (int)$topicID,
+        'name' => $row['name'],
+        'content' => $row['content'],
+        'creatorID' => (int)$row['creator'],
+        'postDateTime' => $row['creation_date'] . " " . $row['creation_time']
+    );
+}
+
+cook($numberOfRecords > 0 ? $topic : null);
