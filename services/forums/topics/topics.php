@@ -1,7 +1,7 @@
 <?php
 
-require("../../config.php");
-require_once('../../utils/comments_utils.php');
+require("../../../config.php");
+require_once('../../../utils/comments_utils.php');
 
 $topics = [];
 $hall = $_GET['hall'];

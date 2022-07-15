@@ -1,7 +1,7 @@
 <?php
 
-require("../../config.php");
-require_once("../../utils/forums_utils.php");
+require("../../../config.php");
+require_once("../../../utils/forums_utils.php");
 
 $hallID = $_GET['hall'];
 $halls = [];

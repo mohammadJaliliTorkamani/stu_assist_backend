@@ -1,7 +1,7 @@
 <?php
 
-require("../../config.php");
-require_once('../../utils/comments_utils.php');
+require("../../../config.php");
+require_once('../../../utils/comments_utils.php');
 
 $comments = [];
 $topicID = $_GET['id'];

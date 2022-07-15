@@ -1,7 +1,7 @@
 <?php
 
-require("../../config.php");
-require_once("../../utils/user_utils.php");
+require("../../../config.php");
+require_once("../../../utils/user_utils.php");
 
 $name = $_POST['name'];
 $content = $_POST['content'];

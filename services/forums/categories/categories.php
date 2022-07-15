@@ -1,6 +1,6 @@
 <?php
 
-require("../../config.php");
+require("../../../config.php");
 
 $query = "SELECT name, descriptor FROM Category WHERE available = '1' ORDER BY placement_order,name ASC";
 $result = dbQuery($query);
