@@ -16,12 +16,10 @@ function getUserInfo($phoneNumber)
     $result = dbQuery($query);
     $row = dbFetchAssoc($result);
 
-    if ($row['name'] == null)
-        $row['name'] = '';
-    if ($row['last_name'] == null)
-        $row['last_name'] = '';
-
-    return $row;
+    return array(
+        'name' => $row['name'] == null ? '' : $row['name'],
+        'last_name' => $row['last_name'] == null ? '' : $row['last_name']
+    );
 }
 
 function getAdmissionStatus($phoneNumber, $universityID)
