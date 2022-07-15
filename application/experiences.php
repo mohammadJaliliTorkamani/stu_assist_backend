@@ -52,15 +52,17 @@ while ($row = dbFetchAssoc($result)) {
     $user = getUserInfo($phoneNumber);
     $admissionStatus = getAdmissionStatus($phoneNumber, $_universityID);
 
-    $record['id'] = $counter++;
-    $record['fullName'] = $user['name'] . ' ' . $user['last_name'];
-    $record['experienceDate'] = $_creationDate;
-    $record['experienceTime'] = $_creationTime;
-    $record['admissionStatus'] = $admissionStatus;
-    $record['comment'] = $_comment;
-    $record['universityName'] = $university['name'];
-    $record['universityCountry'] = $university['country'];
-    $record['universityCity'] = $university['city'];
+    $record = array(
+        'id' => $counter++,
+        'fullName' => $user['name'] . ' ' . $user['last_name'],
+        'experienceDate' => $_creationDate,
+        'experienceTime' => $_creationTime,
+        'admissionStatus' => $admissionStatus,
+        'comment' => $_comment,
+        'universityName' => $university['name'],
+        'universityCountry' => $university['country'],
+        'universityCity' => $university['city']
+    );
 
     array_push($finalResult, $record);
 }

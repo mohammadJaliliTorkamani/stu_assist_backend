@@ -4,31 +4,32 @@ function getLastTopic($hallID)
 {
     $lastTopicID = getLastTopicID($hallID);
     if ($lastTopicID == null) {
-        $topic['id'] = -1;
-        $topic['name'] = null;
-        $topic['numberOfViews'] = -1;
-        $topic['lastTopicDateEquivalent'] = null;
+        $topic = array(
+            'id' => -1,
+            'name' => null,
+            'numberOfViews' => -1,
+            'lastTopicDateEquivalent' => null
+        );
     } else {
-        $query = "SELECT name, creation_date, creation_time, number_of_views FROM Topic WHERE id = '$lastTopicID' AND available = '1'";
+        $query = "SELECT name, creation_date, creation_time, number_of_views 
+        FROM Topic 
+        WHERE id = '$lastTopicID' AND available = '1'";
+
         $result = dbQuery($query);
 
         $row = dbFetchAssoc($result);
-        $topic['id'] = (int)$lastTopicID;
-        $topic['name'] = $row['name'];
-        $topic['numberOfViews'] = (int)$row['number_of_views'];
 
         $dateTime = strtotime($row['creation_date'] . " " . $row['creation_time']);
         $currentDateTime = strtotime(date('Y-m-d') . " " . date('H:i:s'));
         $subtractionInMunite = round(abs($currentDateTime - $dateTime) / 60, 2);
 
-        if ($subtractionInMunite < 60)
-            $topic['lastTopicDateEquivalent'] = ((int)$subtractionInMunite) . " دقیقه پیش";
-        else {
-            if ($subtractionInMunite < 24 * 60)
-                $topic['lastTopicDateEquivalent'] = ((int)($subtractionInMunite / 60)) . " ساعت پیش";
-            else
-                $topic['lastTopicDateEquivalent'] = ((int)($subtractionInMunite / (60 * 24))) . " روز پیش";
-        }
+        $topic = array(
+            'id' => (int)$lastTopicID,
+            'name' => $row['name'],
+            'numberOfViews' => (int)$row['number_of_views'],
+            'lastTopicDateEquivalent' => $subtractionInMunite < 60 ? ((int)$subtractionInMunite) . " دقیقه پیش" : ($subtractionInMunite < 24 * 60 ? ((int)($subtractionInMunite / 60)) . " ساعت پیش" : ((int)($subtractionInMunite / (60 * 24))) . " روز پیش"
+            )
+        );
     }
 
     return $topic;
