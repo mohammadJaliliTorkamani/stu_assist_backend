@@ -3,6 +3,7 @@
 require("../../../config.php");
 require_once("../../../utils/user_utils.php");
 require_once("../../../utils/forums_utils.php");
+require_once("../../../utils/comments_utils.php");
 
 $topicID = $_POST['id'];
 $content = $_POST['content'];
