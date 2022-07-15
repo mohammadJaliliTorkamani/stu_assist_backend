@@ -37,9 +37,8 @@ function hasValidFullName($userID)
     $name = $row['name'];
     $lastName = $row['last_name'];
 
-    if ($name == null || $name === '' || $name === ' ' || $lastName == null || $lastName === '' || $lastName === ' '){
+    if ($name == null || $name === '' || $name === ' ' || $lastName == null || $lastName === '' || $lastName === ' ')
         return false;
-    }
     return true;
 }
 

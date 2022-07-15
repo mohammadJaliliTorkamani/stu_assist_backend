@@ -57,3 +57,27 @@ function topicExists($topicID)
     $result = dbQuery($query);
     return dbNumRows($result) > 0;
 }
+
+function isNewTopic($name)
+{
+    $query = "SELECT name FROM Topic WHERE name = '$name'";
+    $result = dbQuery($query);
+    return dbNumRows($result) == 0;
+}
+
+function hallExistsInCategory($category, $hallID)
+{
+    $query = "SELECT Hall.id FROM Category, Hall WHERE Category.name = Hall.category AND Category.name = '$category' AND Hall.id = '$hallID'";
+    $result = dbQuery($query);
+    return dbNumRows($result) > 0;
+}
+
+function createTopic($name, $content, $hallID, $craetorID)
+{
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i:s');
+    $query = "INSERT INTO Topic(name, creator, content, hall, creation_date, creation_time) 
+    VALUES ('$name', '$craetorID', '$content', '$hallID', '$currentDate', '$currentTime')";
+    dbQuery($query);
+    return dbInsertId();
+}
