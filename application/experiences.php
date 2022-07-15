@@ -10,18 +10,6 @@ function getUniversityInfo($universityID)
     return dbFetchAssoc($result);
 }
 
-function getUserInfo($phoneNumber)
-{
-    $query = "SELECT name, last_name FROM User WHERE phone = '$phoneNumber' AND type = '1'";
-    $result = dbQuery($query);
-    $row = dbFetchAssoc($result);
-
-    return array(
-        'name' => $row['name'] == null ? '' : $row['name'],
-        'last_name' => $row['last_name'] == null ? '' : $row['last_name']
-    );
-}
-
 function getAdmissionStatus($phoneNumber, $universityID)
 {
     $query = "SELECT admission_status as status FROM Application_Experience WHERE user_phone = '$phoneNumber' AND university_id = '$universityID'";

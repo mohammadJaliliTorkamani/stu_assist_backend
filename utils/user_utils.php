@@ -69,3 +69,15 @@ function updateBalance($token, $newBalance)
     WHERE Token.value = '$token' AND Token.user_phone = User.phone AND Wallet.id = User.wallet_id)";
     return dbQuery($query);
 }
+
+function getUserInfo($phoneNumber)
+{
+    $query = "SELECT name, last_name FROM User WHERE phone = '$phoneNumber' AND type = '1'";
+    $result = dbQuery($query);
+    $row = dbFetchAssoc($result);
+
+    return array(
+        'name' => $row['name'] == null ? '' : $row['name'],
+        'last_name' => $row['last_name'] == null ? '' : $row['last_name']
+    );
+}
