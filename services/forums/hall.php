@@ -8,15 +8,18 @@ $halls = [];
 
 $query = "SELECT id, name, descriptor FROM Hall WHERE id = '$hallID' AND available = '1'";
 $result = dbQuery($query);
+$numberOfRecords = dbNumRows($result);
 
-$row = dbFetchAssoc($result);
+if ($numberOfRecords > 0) {
+    $row = dbFetchAssoc($result);
 
-$hall = array(
-    'id' => (int)$row['id'],
-    'name' => $row['name'],
-    'descriptor' => $row['descriptor'],
-    'numberOfTopics' => getNumberOfTopics($row['id']),
-    'lastTopic' =>  getNumberOfTopics($row['id']) > 0 ? getLastTopic($row['id']) : null
-);
+    $hall = array(
+        'id' => (int)$row['id'],
+        'name' => $row['name'],
+        'descriptor' => $row['descriptor'],
+        'numberOfTopics' => getNumberOfTopics($row['id']),
+        'lastTopic' =>  getNumberOfTopics($row['id']) > 0 ? getLastTopic($row['id']) : null
+    );
+}
 
-cook($hall);
+cook($numberOfRecords > 0 ? $hall : null);

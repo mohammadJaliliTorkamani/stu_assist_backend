@@ -10,12 +10,14 @@ $query = "SELECT id, name, content, number_of_views FROM Topic WHERE hall = '$ha
 
 $result = dbQuery($query);
 while ($row = dbFetchAssoc($result)) {
-    $topic['id'] = (int)$row['id'];
-    $topic['name'] = $row['name'];
-    $topic['content'] = $row['content'];
-    $topic['numberOfViews'] = (int)$row['number_of_views'];
-    $topic['numberOfComments'] = getNumberOfComments((int)$row['id']);
-    $topic['lastComment'] = getLastComment((int)$row['id']);
+    $topic = array(
+        'id' => (int)$row['id'],
+        'name' => $row['name'],
+        'content' => $row['content'],
+        'numberOfViews' => (int)$row['number_of_views'],
+        'numberOfComments' => getNumberOfComments((int)$row['id']),
+        'lastComment' => getLastComment((int)$row['id'])
+    );
     array_push($topics, $topic);
 }
 
