@@ -11,12 +11,12 @@ $result = dbQuery($query);
 
 $row = dbFetchAssoc($result);
 
-$hall['id'] = (int)$row['id'];
-$hall['name'] = $row['name'];
-$hall['descriptor'] = $row['descriptor'];
-$hall['numberOfTopics'] = getNumberOfTopics($row['id']);
-
-if ($hall['numberOfTopics'] > 0)
-    $hall['lastTopic'] = getLastTopic($row['id']);
+$hall = array(
+    'id' => (int)$row['id'],
+    'name' => $row['name'],
+    'descriptor' => $row['descriptor'],
+    'numberOfTopics' => getNumberOfTopics($row['id']),
+    'lastTopic' =>  getNumberOfTopics($row['id']) > 0 ? getLastTopic($row['id']) : null
+);
 
 cook($hall);
