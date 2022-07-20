@@ -3,8 +3,8 @@
 require("../config.php");
 
 $BlogPostID = $_GET['id'];
-$query = "SELECT BlogPost.title, overview, content, Photo.path as path, 
-BlogPost.creation_date as CraetionDate, BlogPost.creation_time as CraetionTime 
+$query = "SELECT BlogPost.title, overview, content, Photo.path as photoPath, 
+BlogPost.creation_date as craetionDate, BlogPost.creation_time as craetionTime 
 FROM BlogPost, Photo 
 WHERE BlogPost.photo = Photo.id AND BlogPost.id = '$BlogPostID' AND BlogPost.available = '1'";
 
