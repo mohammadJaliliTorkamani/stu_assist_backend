@@ -8,7 +8,7 @@ function getPostsOfCategory($categoryID)
     AND BlogPost.id = Relation_BlogPost_BlogCategory.blog_post 
     AND BlogPost.available = '1'";
 
-    $postsQuery = "SELECT BlogPost.id, BlogPost.title, overview, Photo.path as photoPath, BlogPost.creation_date as CraetionDate, BlogPost.creation_time as CraetionTime 
+    $postsQuery = "SELECT BlogPost.id, BlogPost.title, overview, Photo.path as photoPath, BlogPost.creation_date as craetionDate, BlogPost.creation_time as craetionTime 
     FROM BlogPost, Photo 
     WHERE BlogPost.id IN (" . $query . ")";
     $result = dbQuery($postsQuery);
