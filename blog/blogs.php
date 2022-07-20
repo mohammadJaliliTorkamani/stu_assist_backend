@@ -8,8 +8,8 @@ $result = dbQuery($query);
 $categoryPosts = [];
 
 while ($row = dbFetchAssoc($result)) {
-    $record['CategoryID'] = (int)$row['id'];
-    $record['CategoryName'] = $row['name'];
+    $record['categoryID'] = (int)$row['id'];
+    $record['categoryName'] = $row['name'];
     $record['posts'] = getPostsOfCategory((int)$row['id']);
 
     array_push($categoryPosts, $record);
