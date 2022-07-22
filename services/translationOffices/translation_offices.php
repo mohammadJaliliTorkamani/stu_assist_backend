@@ -18,7 +18,7 @@ function getLanguages($translationOfficeID)
 
 $query = "SELECT Translation_Office. id as id, Translation_Office.name as name, 
 Translation_Office.website as website, Translation_Office.phone as phone, Address.value as postal_address,
- Address.state as state, Address.city as city, Translation_Office.latitude as latitude, Translation_Office.longitude as longitude 
+ Address.state as state, Address.city as city, Address.latitude as latitude, Address.longitude as longitude 
 FROM Translation_Office, Address
 WHERE available = '1'  AND Address.id = Translation_Office.postal_address 
 ORDER BY name ASC";
