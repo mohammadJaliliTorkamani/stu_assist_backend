@@ -16,9 +16,11 @@ function getLanguages($translationOfficeID)
     return $languages;
 }
 
-$query = "SELECT id, name, website, phone, postal_address, latitude, longitude 
-FROM Translation_Office 
-WHERE available = '1' 
+$query = "SELECT Translation_Office. id as id, Translation_Office.name as name, 
+Translation_Office.website as website, Translation_Office.phone as phone, Address.value as postal_address,
+ Address.state as state, Address.city as city, Translation_Office.latitude as latitude, Translation_Office.longitude as longitude 
+FROM Translation_Office, Address
+WHERE available = '1'  AND Address.id = Translation_Office.postal_address 
 ORDER BY name ASC";
 $result = dbQuery($query);
 
@@ -30,8 +32,11 @@ while ($row = dbFetchAssoc($result)) {
         'name' => $row['name'],
         'website' => $row['website'],
         'phoneNumber' => $row['phone'],
-        'address' => ['name' => $row['postal_address'], 'latitude' => $row['latitude'], 'longitude' => $row['longitude']],
-        'languages' => getLanguages($counter-1)
+        'address' => [
+            'name' => $row['postal_address'], 'latitude' => $row['latitude'],
+            'longitude' => $row['longitude'], 'state' => $row['state'], 'city' => $row['city']
+        ],
+        'languages' => getLanguages($counter - 1)
     );
     array_push($offices, $office);
 }
