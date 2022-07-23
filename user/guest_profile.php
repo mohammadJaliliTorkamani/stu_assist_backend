@@ -21,9 +21,8 @@ else {
         $addressResult = dbQuery($addressQuery);
         $address = dbFetchAssoc($addressResult);
         $guestProfileRow['address'] = $address;
-    } else {
+    } else
         $guestProfileRow['address'] = null;
-    }
 
     if ($profilePhotoID !== -1) {
         $photoQuery = "SELECT path FROM Photo where id = '$profilePhotoID'";
@@ -32,7 +31,6 @@ else {
         $guestProfileRow['photo'] = $photo;
     } else
         $guestProfileRow['photo'] = null;
-
 
     cook($guestProfileRow);
 }
