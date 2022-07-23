@@ -7,6 +7,8 @@ require_once("../../../utils/topics_utils.php");
 $token = getToken();
 $topicIDs = (int)$_POST['id'];
 $likeCommand = (int)$_POST['like'];
+$currentDate = date('Y-m-d');
+$currentTime = date('H:i:s');
 
 if (isValid($token)) {
     if (isTopicExists($topicIDs)) {
@@ -16,7 +18,7 @@ if (isValid($token)) {
             $existenceCheckQuery = "SELECT id FROM Topic_User_Relation_Like WHERE user_phone = '$phone' AND topic_id = '$topicIDs'";
             $existenceCheckResult = dbQuery($existenceCheckQuery);
             if (dbNumRows($existenceCheckResult) == 0)
-                $query = "INSERT INTO Topic_User_Relation_Like (user_phone, topic_id) VALUES ('$phone','$topicIDs')";
+                $query = "INSERT INTO Topic_User_Relation_Like (user_phone, topic_id, creation_date, creation_time) VALUES ('$phone','$topicIDs','$currentDate','$currentTime')";
             else {
                 cook(null);
                 return;
