@@ -44,3 +44,10 @@ function createComment($craetorID, $content, $topicID)
     VALUES ('$content', '$craetorID', '$topicID', '$currentDate', '$currentTime')";
     return dbQuery($query);
 }
+
+function isCommentExists($commentID)
+{
+    $query = "SELECT id FROM Comment WHERE id = '$commentID' AND available = '1'";
+    $result = dbQuery($query);
+    return dbNumRows($result);
+}
