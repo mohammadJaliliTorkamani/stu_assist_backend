@@ -3,6 +3,8 @@
 function getToken()
 {
     $headers = getallheaders();
+    if (!array_key_exists('Authorization', $headers))
+        return null;
     $val = $headers['Authorization'];
     return trim(substr($val, 7));
 }
