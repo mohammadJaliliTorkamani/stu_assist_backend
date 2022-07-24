@@ -21,6 +21,7 @@ while ($row = dbFetchAssoc($result)) {
             'id' => (int)$row['id'],
             'message' => $row['content'],
             'liked' => null,
+            'numberOfLikes' => getNumberOfLikesForComment((int)$row['id']),
             'creatorID' => (int)$row['creator'],
             'commentDateTime' => $row['creation_date'] . " " . $row['creation_time']
         );
@@ -34,6 +35,7 @@ while ($row = dbFetchAssoc($result)) {
             'id' => (int)$row['id'],
             'message' => $row['content'],
             'liked' => $liked,
+            'numberOfLikes' => getNumberOfLikesForComment((int)$row['id']),
             'creatorID' => (int)$row['creator'],
             'commentDateTime' => $row['creation_date'] . " " . $row['creation_time']
         );

@@ -51,3 +51,10 @@ function isCommentExists($commentID)
     $result = dbQuery($query);
     return dbNumRows($result);
 }
+
+function getNumberOfLikesForComment($commentID)
+{
+    $query = "SELECT id FROM User_Comment_Relation_Like WHERE comment_id = '$commentID'";
+    $result = dbQuery($query);
+    return dbNumRows($result);
+}
