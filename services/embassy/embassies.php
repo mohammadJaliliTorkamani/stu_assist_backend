@@ -12,7 +12,9 @@ AND Embassy.available = '1'";
 $embassies = [];
 $result = dbQuery($query);
 
-while ($row = dbFetchAssoc($result))
+while ($row = dbFetchAssoc($result)) {
+    $row['title'] = "سفارت " . $row['title'];
     array_push($embassies, $row);
+}
 
 cook($embassies);
