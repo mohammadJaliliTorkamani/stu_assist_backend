@@ -2,7 +2,7 @@
 
 require('../../config.php');
 
-$query = "SELECT Embassy.country as title, Embassy.website as path, Embassy.phone, Photo.path, 
+$query = "SELECT Embassy.country as title, Embassy.website as path, Embassy.phone, Photo.path as photo, 
 Address.state, Address.city, Address.value 
 FROM Embassy, Address, Photo 
 WHERE Embassy.flag_photo = Photo.id 
