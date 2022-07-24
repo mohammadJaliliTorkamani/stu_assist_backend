@@ -2,6 +2,7 @@
 
 require("../../../config.php");
 require_once('../../../utils/comments_utils.php');
+require_once('../../../utils/topics_utils.php');
 require_once("../../../utils/user_utils.php");
 
 $topicID = $_GET['topic'];
@@ -23,6 +24,7 @@ if ($numberOfRecords > 0) {
             'content' => $row['content'],
             'creatorID' => (int)$row['creator'],
             'liked' => null,
+            'numberOfLikes' => getNumberOfLikes((int)$topicID),
             'postDateTime' => $row['creation_date'] . " " . $row['creation_time']
         );
     else {
@@ -36,6 +38,7 @@ if ($numberOfRecords > 0) {
             'content' => $row['content'],
             'creatorID' => (int)$row['creator'],
             'liked' => $liked,
+            'numberOfLikes' => getNumberOfLikes((int)$topicID),
             'postDateTime' => $row['creation_date'] . " " . $row['creation_time']
         );
     }
