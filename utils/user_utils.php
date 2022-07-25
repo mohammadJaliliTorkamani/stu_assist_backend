@@ -73,11 +73,12 @@ function updateBalance($token, $newBalance)
 
 function getUserInfo($phoneNumber)
 {
-    $query = "SELECT name, last_name, profile_photo FROM User WHERE phone = '$phoneNumber' AND type = '1'";
+    $query = "SELECT id, name, last_name, profile_photo FROM User WHERE phone = '$phoneNumber' AND type = '1'";
     $result = dbQuery($query);
     $row = dbFetchAssoc($result);
 
     $user =  array(
+        'id' => $row['id'],
         'name' => $row['name'] == null ? '' : $row['name'],
         'last_name' => $row['last_name'] == null ? '' : $row['last_name']
     );
