@@ -41,6 +41,7 @@ while ($row = dbFetchAssoc($result)) {
     $record = array(
         'id' => $counter++,
         'fullName' => $user['name'] . ' ' . $user['last_name'],
+        'photo' => $user['photo'],
         'experienceDate' => $_creationDate,
         'experienceTime' => $_creationTime,
         'admissionStatus' => $admissionStatus,
