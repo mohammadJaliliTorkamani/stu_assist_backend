@@ -52,8 +52,8 @@ if (isValid($token)) {
     createExperience($universityID, $phoneNumber);
 
     if (addIntoApplicationExperience($universityID, $phoneNumber))
-        cook(null, false, 'experience submitted!');
+        cook(null, false, 'تجربه پذیرش ثبت شد');
     else
-        cook(null, true, 'Error while submitting experience');
+        cook(null, true, 'حطای داخلی سرور');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

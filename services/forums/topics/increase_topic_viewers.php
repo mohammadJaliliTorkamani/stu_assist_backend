@@ -10,4 +10,4 @@ $result = dbQuery($query);
 if ($result)
     cook(null);
 else
-    cook(null, true, 'Error while operating');
+    cook(null, true, 'خطای داخلی سرور');

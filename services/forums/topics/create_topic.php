@@ -25,4 +25,4 @@ if (isValid($token)) {
     } else
         cook(null, true, 'داده های ورودی اشتباه است');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

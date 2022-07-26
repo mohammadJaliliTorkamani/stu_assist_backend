@@ -18,8 +18,8 @@ if (isValid($token)) {
         if ($result)
             cook(null);
         else
-            cook(null, true, 'Error while operating');
+            cook(null, true, 'خطای داخلی سرور');
     } else
-        cook(null, true, 'No such topic');
+        cook(null, true, 'تاپیک وجود ندارد');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

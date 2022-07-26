@@ -152,16 +152,16 @@ if (isValidRecordInfo()) {
                     if (increaseBalance($orderID) == TRUE)
                         $result = cook($data, false, null, false);
                     else
-                        $result = cook(null, true, 'خطای سرور - ۴', false);
+                        $result = cook(null, true, 'خطای داخلی سرور - کد ۴', false);
                 } else
-                    $result = cook(null, true, 'خطای سرور - ۳', false);
+                    $result = cook(null, true, 'خطای داخلی سرور - کد ۳', false);
             } else
-                $result = cook(null, true, 'خطای سرور - ۲', false);
+                $result = cook(null, true, 'خطای داخلی سرور - کد ۲', false);
         }
     } else
-        $result = cook(null, true, 'خطای سرور', false);
+        $result = cook(null, true, 'خطای داخلی سرور', false);
 } else
-    $result = cook(null, true, 'invalid payment result', false);
+    $result = cook(null, true, 'نتیجه معتبر یافت نشد', false);
 
 //result is not used for the current version!
 $query =  "<script type='text/javascript' language='Javascript'>

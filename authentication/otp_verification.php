@@ -20,7 +20,7 @@ function createToken($token)
         dbQuery("DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'");
         cook($token);
     } else
-        cook(null, true, 'Something went wrong');
+        cook(null, true, 'خطای داخلی سرور');
 }
 
 $sql = "SELECT expiration_date, expiration_time FROM OTP WHERE user_phone = '$phoneNumber' and value = '$OTP'";
@@ -36,6 +36,6 @@ if (dbNumRows($result) > 0) {
         $token = hash('sha256', $flavor);
         createToken($token);
     } else
-        cook(null, true, 'OTP Code is expired');
+        cook(null, true, 'کد فعالسازی منقضی شده است');
 } else
-    cook(null, true, 'No valid OTP record was found');
+    cook(null, true, 'کد فعالسازی یافت نشد');

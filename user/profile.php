@@ -42,6 +42,6 @@ if (isValid($token)) {
         $data['transactions'] = $transactions;
         cook($data);
     } else
-        cook(null, true, 'Something went wrong');
+        cook(null, true, 'خطای داخلی سرور');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

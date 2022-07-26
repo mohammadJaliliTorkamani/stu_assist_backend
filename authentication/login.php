@@ -90,4 +90,4 @@ if (createOTP()) {
     sendSMS();
     cook(null, false, 'OTP was sent to ' . ($isNewUser ? 'a new user' : 'the existing user'));
 } else
-    cook(null, true, 'Something went wrong');
+    cook(null, true, 'خطای داخلی سرور');

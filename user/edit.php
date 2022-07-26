@@ -3,7 +3,7 @@
 require("../config.php");
 require_once('../utils/user_utils.php');
 
-$fullName = trim($_GET['fullName']," ");
+$fullName = trim($_GET['fullName'], " ");
 $fullNameArray = explode(' ', $fullName);
 $name = $fullNameArray[0];
 $lastName = '';
@@ -27,4 +27,4 @@ if (isValid($token)) {
     } else
         cook(null, true, 'فرمت مقدار ارسالی نامعتبر است');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

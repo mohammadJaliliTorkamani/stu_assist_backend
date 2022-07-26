@@ -21,6 +21,6 @@ if (isValid($token)) {
         }
         cook($chargeValues);
     } else
-        cook(null, true, 'Something went wrong');
+        cook(null, true, 'خطای داخلی سرور');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

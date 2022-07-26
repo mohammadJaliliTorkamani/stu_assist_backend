@@ -37,12 +37,12 @@ if (isValid($token)) {
                 if ($result1 == TRUE && $result2 == TRUE)
                     cook($ects);
                 else
-                    cook(null, true, 'Something went wrong');
+                    cook(null, true, 'خطای داخلی سرور');
             } else
-                cook(null, true, 'invalid ECTS data was passed');
+                cook(null, true, 'مقادیر ارسال شده نامعتبر است');
         } else
-            cook(null, true, 'Insufficient balance');
+            cook(null, true, 'موجودی ناکافی');
     } else
-        cook(null, true, 'No active services were found');
+        cook(null, true, 'سرویس فعالی یافت نشد');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

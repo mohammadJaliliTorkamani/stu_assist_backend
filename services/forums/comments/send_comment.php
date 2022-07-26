@@ -18,7 +18,7 @@ if (isValid($token)) {
             cook(null);
         } else
             cook(null, true, 'لطفا ابتدا از حساب کاربری خود نام و نام خانوادگی خود را تکمیل نمایید');
-    } else 
+    } else
         cook(null, true, 'داده های ورودی اشتباه است');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

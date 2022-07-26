@@ -62,6 +62,6 @@ if (isValid($token)) {
         $result['time'] = $lastRecord['payment_time'];
         cook($result);
     } else
-        cook(null, true, 'no transaction was found');
+        cook(null, true, 'تراکنشی یافت نشد');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');

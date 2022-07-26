@@ -80,4 +80,4 @@ if (isValid($token)) {
     } else
         cook(null, true, 'خطا در پردازش اطلاعات پرداخت');
 } else
-    cook(null, true, 'invalid token');
+    cook(null, true, 'نشست نامعتبر');
