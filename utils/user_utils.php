@@ -71,9 +71,9 @@ function updateBalance($token, $newBalance)
     return dbQuery($query);
 }
 
-function getUserInfo($phoneNumber)
+function getUserInfo($userID)
 {
-    $query = "SELECT id, name, last_name, profile_photo FROM User WHERE phone = '$phoneNumber' AND type = '1'";
+    $query = "SELECT id, name, last_name, profile_photo FROM User WHERE id = '$userID' AND type = '1'";
     $result = dbQuery($query);
     $row = dbFetchAssoc($result);
 

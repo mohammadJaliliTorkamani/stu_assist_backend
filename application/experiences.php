@@ -6,27 +6,23 @@ require_once('../utils/university_utils.php');
 
 $finalResult = [];
 
-$query = "SELECT id, creation_date, creation_time, comment, university_id, user_phone
-    FROM Experience 
+$query = "SELECT id, creation_date, creation_time, comment, university, user , admission_status
+    FROM User_University_Relation_Admission 
     WHERE verified = '1'
     ORDER BY creation_date, creation_time DESC";
 
 $result = dbQuery($query);
-$counter = 1;
 while ($row = dbFetchAssoc($result)) {
     $_id = intval($row['id']);
     $_creationDate = $row['creation_date'];
     $_creationTime = $row['creation_time'];
     $_comment = $row['comment'];
-    $_universityID = intval($row['university_id']);
-
-    $phoneNumber = $row['user_phone'];
-    $university = getUniversityInfo($_universityID);
-    $user = getUserInfo($phoneNumber);
-    $admissionStatus = getAdmissionStatus($phoneNumber, $_universityID);
+    $admissionStatus = ((int)$row['admission_status']) === 1 ? true : false;
+    $university = getUniversityInfo(intval($row['university']));
+    $user = getUserInfo($row['user']);
 
     $record = array(
-        'id' => $counter++,
+        'id' => $_id,
         'userID' => (int)$user['id'],
         'fullName' => $user['name'] . ' ' . $user['last_name'],
         'photo' => $user['photo'],

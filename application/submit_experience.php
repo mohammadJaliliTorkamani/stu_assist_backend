@@ -12,46 +12,41 @@ $token = getToken();
 function createUniversityIfNotExists()
 {
     global $university;
-    $country = $university->country;
-    $city = $university->city;
     $name = $university->name;
+    $city = $university->city;
+    $country = $university->country;
 
-    $query = "SELECT id FROM University WHERE name = '$name' AND country = '$country' and city = '$city'";
+    $query = "SELECT id FROM University WHERE name = '$name'";
     $result = dbQuery($query);
     if (dbNumRows($result) == 0) {
-        $query = "INSERT INTO University(name, country, city) VALUES ('$name', '$country', '$city')";
+        $addressTitle = $name . " University";
+        $query = "INSERT INTO Address (title, country, city) VALUES('$addressTitle', '$country', '$city')";
+        $result = dbQuery($query);
+        $addressID = dbInsertId();
+        $query = "INSERT INTO University(name, address) VALUES ('$name', '$addressID')";
         $result = dbQuery($query);
         return dbInsertId();
     } else
         return dbFetchAssoc($result)['id'];
 }
 
-function createExperience($universityID, $phoneNumber)
+function createExperience($universityID, $userID)
 {
-    global $experience;
+    global $experience, $admissionStatus;
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i:s');
     $comment = $experience->comment;
 
-    $query = "INSERT INTO Experience(comment, creation_date, creation_time, user_phone, university_id) 
-    VALUES ('$comment','$currentDate','$currentTime','$phoneNumber','$universityID')";
-    dbQuery($query);
-}
-
-function addIntoApplicationExperience($universityID, $phoneNumber)
-{
-    global $admissionStatus;
-    $query = "INSERT INTO Application_Experience (user_phone, university_id, admission_status) 
-    VALUES ('$phoneNumber','$universityID','$admissionStatus')";
+    $query = "INSERT INTO User_University_Relation_Admission(comment, creation_date, creation_time, user, university, admission_status) 
+    VALUES ('$comment','$currentDate','$currentTime','$userID','$universityID', '$admissionStatus')";
     return dbQuery($query);
 }
 
 if (isValid($token)) {
-    $phoneNumber = getPhoneNumber($token);
+    $userID = getUserID($token);
     $universityID = createUniversityIfNotExists();
-    createExperience($universityID, $phoneNumber);
 
-    if (addIntoApplicationExperience($universityID, $phoneNumber))
+    if (createExperience($universityID, $userID))
         cook(null, false, 'تجربه پذیرش ثبت شد');
     else
         cook(null, true, 'حطای داخلی سرور');
