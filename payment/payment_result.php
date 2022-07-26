@@ -39,9 +39,9 @@ function getStatusCodeMeaning($status)
 
 function getLastPayment($token)
 {
-    $phoneNumber = getPhoneNumber($token);
-    $query = "SELECT order_id, user_phone, card_number, price, verification_status,payment_track_id, payment_date, payment_time 
-    FROM Charge WHERE user_phone = '$phoneNumber' ORDER BY payment_date, payment_time DESC";
+    $userID = getUserID($token);
+    $query = "SELECT order_id, user, card_number, price, verification_status,payment_track_id, payment_date, payment_time 
+    FROM Charge WHERE user = '$userID' ORDER BY payment_date, payment_time DESC";
     $result = dbQuery($query);
     if (dbNumRows($result) > 0)
         return dbFetchAssoc($result);
@@ -51,8 +51,9 @@ function getLastPayment($token)
 if (isValid($token)) {
     $lastRecord = getLastPayment($token);
     if ($lastRecord !== null) {
+        $phoneNumber = getPhoneNumber($token);
         $result['orderID'] = intval($lastRecord['order_id']);
-        $result['userPhone'] = $lastRecord['user_phone'];
+        $result['userPhone'] = $phoneNumber;
         $result['cardNumber'] = $lastRecord['card_number'];
         $result['price'] = intval($lastRecord['price']);
         $result['status'] = intval($lastRecord['verification_status']);

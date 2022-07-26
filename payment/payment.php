@@ -8,20 +8,21 @@ $numberOfRequests = $_POST['number_of_requests'];
 
 $token = getToken();
 
-function deleteExistingIncompleteChargeRecords($phoneNumber)
+function deleteExistingIncompleteChargeRecords($userID)
 {
-    return dbQuery("DELETE FROM Charge WHERE user_phone = '$phoneNumber' AND created = '0'");
+    return dbQuery("DELETE FROM Charge WHERE user = '$userID' AND created = '0'");
 }
 
 function insertChargeRecord($phoneNumber, $walletID)
 {
-    deleteExistingIncompleteChargeRecords($phoneNumber);
+    $userID = getUserIDFromPhone($phoneNumber);
+    deleteExistingIncompleteChargeRecords($userID);
     global $price;
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i:s');
 
-    $query = "INSERT INTO Charge(user_phone, wallet_id, price, record_creation_date, record_creation_time) 
-        VALUES ('$phoneNumber','$walletID','$price','$currentDate','$currentTime')";
+    $query = "INSERT INTO Charge(user, wallet_id, price, record_creation_date, record_creation_time) 
+        VALUES ('$userID','$walletID','$price','$currentDate','$currentTime')";
     $result = dbQuery($query);
     return $result == True ? dbInsertId() : -1;
 }

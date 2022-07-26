@@ -28,8 +28,8 @@ function isValid($token)
 
 function getPhoneNumber($token)
 {
-    $result = dbQuery("SELECT user_phone FROM Token WHERE value = '$token'");
-    return dbFetchAssoc($result)['user_phone'];
+    $result = dbQuery("SELECT User.phone as phone FROM Token, User WHERE Token.user = User.id AND Token.value = '$token'");
+    return dbFetchAssoc($result)['phone'];
 }
 
 function hasValidFullName($userID)
@@ -46,21 +46,21 @@ function hasValidFullName($userID)
 
 function getUserID($token)
 {
-    $query = "SELECT User.id AS id FROM User, Token WHERE Token.value = '$token' AND User.phone = Token.user_phone";
+    $query = "SELECT User.id AS id FROM User, Token WHERE Token.value = '$token' AND User.id = Token.user";
     $result = dbQuery($query);
     return dbFetchAssoc($result)['id'];
 }
 
 function getWalletID($token)
 {
-    $result = dbQuery("SELECT User.wallet_id FROM Token, User WHERE value = '$token' AND User.phone = Token.user_phone");
+    $result = dbQuery("SELECT User.wallet_id FROM Token, User WHERE value = '$token' AND User.id = Token.user");
     return dbFetchAssoc($result)['wallet_id'];
 }
 
 function getBalance($token)
 {
     $query = "SELECT balance FROM Token, User, Wallet 
-    WHERE Token.value = '$token' AND Token.user_phone = User.phone AND Wallet.id = User.wallet_id";
+    WHERE Token.value = '$token' AND Token.user = User.id AND Wallet.id = User.wallet_id";
     $result = dbQuery($query);
     return intval(dbFetchAssoc($result)['balance']);
 }
@@ -68,7 +68,7 @@ function getBalance($token)
 function updateBalance($token, $newBalance)
 {
     $query = "UPDATE Wallet SET balance = '$newBalance' WHERE id IN (SELECT Wallet.id FROM Token,User, Wallet 
-    WHERE Token.value = '$token' AND Token.user_phone = User.phone AND Wallet.id = User.wallet_id)";
+    WHERE Token.value = '$token' AND Token.user = User.id AND Wallet.id = User.wallet_id)";
     return dbQuery($query);
 }
 

@@ -9,7 +9,7 @@ if (isValid($token)) {
     $data = [];
     $infoQuery = "SELECT balance, wallet_id, name, last_name 
     FROM Token, User, Wallet 
-    WHERE User.wallet_id = Wallet.id AND Token.value = '$token' AND User.phone = Token.user_phone";
+    WHERE User.wallet_id = Wallet.id AND Token.value = '$token' AND User.id = Token.user";
 
     $info_result = dbQuery($infoQuery);
     $infoRow = dbFetchAssoc($info_result);

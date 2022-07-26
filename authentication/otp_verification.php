@@ -13,12 +13,12 @@ $expirationTime = date('H:i:s');
 function createToken($token)
 {
     global $phoneNumber, $expirationDate, $expirationTime, $currentDate, $currentTime, $OTP;
-    $query = "INSERT INTO Token(value, user_phone, expiration_date, expiration_time, is_valid, creation_date, creation_time)
-    VALUES('$token', '$phoneNumber', '$expirationDate','$expirationTime','1','$currentDate','$currentTime' )";
+    $userID = getUserIDFromPhone($phoneNumber);
+    $query = "INSERT INTO Token(value, user, expiration_date, expiration_time, is_valid, creation_date, creation_time)
+    VALUES('$token', '$userID', '$expirationDate','$expirationTime','1','$currentDate','$currentTime' )";
     $result = dbQuery($query);
     if ($result == TRUE) {
         dbQuery("UPDATE User SET type = '1' WHERE phone = '$phoneNumber'");
-        $userID = getUserIDFromPhone($phoneNumber);
         dbQuery("DELETE FROM OTP Where user = '$userID' AND value = '$OTP'");
         cook($token);
     } else

@@ -113,8 +113,9 @@ function getAmount($orderID)
 
 function increaseBalance($orderID)
 {
-    $result = dbQuery("SELECT Token.value as token FROM Charge,Token, User WHERE Charge.order_id = '$orderID' AND Token.user_phone = User.phone AND 
-    Charge.user_phone = User.phone");
+    $result = dbQuery("SELECT Token.value as token FROM Charge,Token, User WHERE 
+    Charge.order_id = '$orderID' AND Token.user = User.id AND 
+    Charge.user = User.id");
     $token = dbFetchAssoc($result)['token'];
     $price = getAmount($orderID);
     $walletID = getWalletID($token);
