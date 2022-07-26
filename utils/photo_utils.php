@@ -1,7 +1,5 @@
 <?php
 
-require_once('../config.php');
-
 function getPhoto($photoID)
 {
     if ($photoID === -1)
