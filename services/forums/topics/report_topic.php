@@ -12,8 +12,8 @@ $currentTime = date('H:i:s');
 
 if (isValid($token)) {
     if (isTopicExists($topicIDs)) {
-        $phone = getPhoneNumber($token);
-        $query = "INSERT INTO User_Topic_Relation_Report (user_phone, topic_id, reason, creation_date, creation_time) VALUES ('$phone','$topicIDs','$reason','$currentDate','$currentTime')";
+        $userID = getUserID($token);
+        $query = "INSERT INTO User_Topic_Relation_Report (user, topic_id, reason, creation_date, creation_time) VALUES ('$userID','$topicIDs','$reason','$currentDate','$currentTime')";
         $result = dbQuery($query);
         if ($result)
             cook(null);

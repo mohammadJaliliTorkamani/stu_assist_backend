@@ -12,19 +12,19 @@ $currentTime = date('H:i:s');
 
 if (isValid($token)) {
     if (isTopicExists($topicID)) {
-        $phone = getPhoneNumber($token);
+        $userID = getUserID($token);
 
         if ($likeCommand) {
-            $existenceCheckQuery = "SELECT id FROM User_Topic_Relation_Like WHERE user_phone = '$phone' AND topic_id = '$topicID'";
+            $existenceCheckQuery = "SELECT id FROM User_Topic_Relation_Like WHERE user = '$userID' AND topic_id = '$topicID'";
             $existenceCheckResult = dbQuery($existenceCheckQuery);
-            if (dbNumRows($existenceCheckResult) == 0)
-                $query = "INSERT INTO User_Topic_Relation_Like (user_phone, topic_id, creation_date, creation_time) VALUES ('$phone','$topicID','$currentDate','$currentTime')";
+            if (dbNumRows($existenceCheckResult) === 0)
+                $query = "INSERT INTO User_Topic_Relation_Like (user, topic_id, creation_date, creation_time) VALUES ('$userID','$topicID','$currentDate','$currentTime')";
             else {
                 cook(null);
                 return;
             }
         } else
-            $query = "DELETE FROM User_Topic_Relation_Like WHERE user_phone = '$phone' AND topic_id = '$topicID'";
+            $query = "DELETE FROM User_Topic_Relation_Like WHERE user = '$userID' AND topic_id = '$topicID'";
 
         $result = dbQuery($query);
         if ($result)

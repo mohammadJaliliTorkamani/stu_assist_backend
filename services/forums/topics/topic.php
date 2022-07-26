@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'postDateTime' => $row['creation_date'] . " " . $row['creation_time']
             );
         else {
-            $userPhone = getPhoneNumber($token);
-            $query = "SELECT id FROM User_Topic_Relation_Like WHERE user_phone = '$userPhone' AND topic_id = '$topicID'";
+            $userID = getUserID($token);
+            $query = "SELECT id FROM User_Topic_Relation_Like WHERE user = '$userID' AND topic_id = '$topicID'";
             $result = dbQuery($query);
             $liked = dbNumRows($result) == 1 ? true : false;
             $topic = array(
