@@ -1,7 +1,5 @@
 <?php
 
-require_once('./photo_utils.php');
-
 function getToken()
 {
     $headers = getallheaders();
@@ -86,7 +84,14 @@ function getUserInfo($phoneNumber)
     );
 
     $profilePhotoID = (int)$row['profile_photo'];
-    $user['photo'] = getPhoto($profilePhotoID);
+
+    if ($profilePhotoID === -1)
+        $user['photo'] = null;
+    else {
+        $photoQuery = "SELECT path FROM Photo where id = '$profilePhotoID'";
+        $photoResult = dbQuery($photoQuery);
+        $user['photo'] = dbFetchAssoc($photoResult);
+    }
 
     return $user;
 }

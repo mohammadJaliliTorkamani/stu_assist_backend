@@ -1,7 +1,5 @@
 <?php
 
-require('../config.php');
-
 function getUniversityInfo($universityID)
 {
     $query = "SELECT name, country, city FROM University WHERE id = '$universityID'";

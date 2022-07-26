@@ -2,7 +2,7 @@
 
 require("../config.php");
 require_once('../utils/user_utils.php');
-require_once('./university_utils.php');
+require_once('../utils/university_utils.php');
 
 $finalResult = [];
 
