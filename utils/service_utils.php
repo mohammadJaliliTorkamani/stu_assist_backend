@@ -4,10 +4,10 @@ function insertServiceUsage($token, $SERVICE_NAME)
 {
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i:s');
-    $phoneNumber = getPhoneNumber($token);
+    $userID = getUserID($token);
     $cost = getServiceCost($SERVICE_NAME);
-    $query = "INSERT INTO Service_Usage (service_name, user_phone, paid_cost, date, time) 
-    VALUES ('$SERVICE_NAME','$phoneNumber','$cost','$currentDate','$currentTime')";
+    $query = "INSERT INTO Service_Usage (service_name, user, paid_cost, date, time) 
+    VALUES ('$SERVICE_NAME','$userID','$cost','$currentDate','$currentTime')";
     return dbQuery($query);
 }
 

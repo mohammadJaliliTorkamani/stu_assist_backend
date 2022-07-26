@@ -27,8 +27,8 @@ while ($row = dbFetchAssoc($result)) {
         );
     } else {
         $commentID = (int)$row['id'];
-        $userPhone = getPhoneNumber($token);
-        $LikeQuery = "SELECT id FROM User_Comment_Relation_Like WHERE user_phone = '$userPhone' AND comment_id = '$commentID'";
+        $userID = getUserID($token);
+        $LikeQuery = "SELECT id FROM User_Comment_Relation_Like WHERE user = '$userID' AND comment_id = '$commentID'";
         $likeResult = dbQuery($LikeQuery);
         $liked = dbNumRows($likeResult) == 1 ? true : false;
         $comment = array(

@@ -2,6 +2,7 @@
 
 require("../config.php");
 require_once("../sms_service.php");
+require_once("../utils/user_utils.php");
 
 $phoneNumber = $_POST['phone_number'];
 $OTP_digits = 5;
@@ -29,10 +30,10 @@ function createUser($walletID)
 function createOTP()
 {
     global $OTPCode, $phoneNumber, $expirationDate, $expirationTime, $currentDate, $currentTime;
-
-    dbQuery("DELETE FROM OTP WHERE user_phone = '$phoneNumber'");
-    $query = "INSERT INTO OTP(value, user_phone, expiration_date, expiration_time, creation_date, creation_time)
-     VALUES('$OTPCode', '$phoneNumber', '$expirationDate','$expirationTime','$currentDate','$currentTime' )";
+    $userID = getUserIDFromPhone($phoneNumber);
+    dbQuery("DELETE FROM OTP WHERE user = '$userID'");
+    $query = "INSERT INTO OTP(value, user, expiration_date, expiration_time, creation_date, creation_time)
+     VALUES('$OTPCode', '$userID', '$expirationDate','$expirationTime','$currentDate','$currentTime' )";
     return dbQuery($query);
 }
 

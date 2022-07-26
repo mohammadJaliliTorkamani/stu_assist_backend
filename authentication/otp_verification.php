@@ -1,6 +1,7 @@
 <?php
 
 require("../config.php");
+require_once('../utils/user_utils.php');
 
 $OTP = $_POST['otp_code'];
 $phoneNumber = $_POST['phone_number'];
@@ -17,13 +18,15 @@ function createToken($token)
     $result = dbQuery($query);
     if ($result == TRUE) {
         dbQuery("UPDATE User SET type = '1' WHERE phone = '$phoneNumber'");
-        dbQuery("DELETE FROM OTP Where user_phone = '$phoneNumber' AND value = '$OTP'");
+        $userID = getUserIDFromPhone($phoneNumber);
+        dbQuery("DELETE FROM OTP Where user = '$userID' AND value = '$OTP'");
         cook($token);
     } else
         cook(null, true, 'خطای داخلی سرور');
 }
 
-$sql = "SELECT expiration_date, expiration_time FROM OTP WHERE user_phone = '$phoneNumber' and value = '$OTP'";
+$userID = getUserIDFromPhone($phoneNumber);
+$sql = "SELECT expiration_date, expiration_time FROM OTP WHERE user = '$userID' and value = '$OTP'";
 $result = dbQuery($sql);
 
 if (dbNumRows($result) > 0) {

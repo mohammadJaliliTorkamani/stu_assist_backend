@@ -12,8 +12,8 @@ $currentTime = date('H:i:s');
 
 if (isValid($token)) {
     if (isCommentExists($commentID)) {
-        $phone = getPhoneNumber($token);
-        $query = "INSERT INTO User_Comment_Relation_Report (user_phone, comment_id, reason, creation_date, creation_time) VALUES ('$phone','$commentID','$reason','$currentDate','$currentTime')";
+        $userID = getUserID($token);
+        $query = "INSERT INTO User_Comment_Relation_Report (user, comment_id, reason, creation_date, creation_time) VALUES ('$userID','$commentID','$reason','$currentDate','$currentTime')";
         $result = dbQuery($query);
         if ($result)
             cook(null);
