@@ -40,8 +40,6 @@ while ($row = dbFetchAssoc($result)) {
             'commentDateTime' => $row['creation_date'] . " " . $row['creation_time']
         );
     }
-
-
     array_push($comments, $comment);
 }
 

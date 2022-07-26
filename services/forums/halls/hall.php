@@ -12,7 +12,6 @@ $numberOfRecords = dbNumRows($result);
 
 if ($numberOfRecords > 0) {
     $row = dbFetchAssoc($result);
-
     $hall = array(
         'id' => (int)$row['id'],
         'name' => $row['name'],

@@ -2,7 +2,7 @@
 
 require("../config.php");
 require_once('../utils/address_utils.php');
-require_once('../utils/photi_utils.php');
+require_once('../utils/photo_utils.php');
 
 $userID = (int)$_GET['id'];
 

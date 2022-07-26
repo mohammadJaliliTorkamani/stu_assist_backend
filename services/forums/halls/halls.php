@@ -17,7 +17,6 @@ while ($row = dbFetchAssoc($result)) {
         'numberOfTopics' => getNumberOfTopics($row['id']),
         'lastTopic' => getLastTopic($row['id'])
     );
-
     array_push($halls, $hall);
 }
 

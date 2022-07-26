@@ -7,8 +7,8 @@ $topics = [];
 $hall = $_GET['hall'];
 
 $query = "SELECT id, name, content, number_of_views FROM Topic WHERE hall = '$hall' AND available = '1'";
-
 $result = dbQuery($query);
+
 while ($row = dbFetchAssoc($result)) {
     $topic = array(
         'id' => (int)$row['id'],
