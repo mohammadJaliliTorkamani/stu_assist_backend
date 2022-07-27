@@ -1,94 +1,45 @@
 <?php
 
 require("../config.php");
-require_once("../sms_service.php");
-require_once("../utils/user_utils.php");
 
-$phoneNumber = $_POST['phone_number'];
-$OTP_digits = 5;
-$currentDate = date('Y-m-d');
-$currentTime = date('H:i:s');
-$expirationDate = date('Y-m-d', strtotime('+1 day'));
-$expirationTime = date('H:i:s');
-$OTPCode = rand(pow(10, $OTP_digits - 1), pow(10, $OTP_digits) - 1);
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-function createWallet()
+function createToken($token, $userID)
 {
-    $wallet_query = "INSERT INTO Wallet(balance) VALUES ('20000')";
-    dbQuery($wallet_query);
-    return dbInsertId();
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i:s');
+    $expirationDate = date('Y-m-d', strtotime('+7 days'));
+    $expirationTime = date('H:i:s');
+
+    $query = "INSERT INTO Token(value, user, expiration_date, expiration_time, is_valid, creation_date, creation_time)
+    VALUES('$token', '$userID', '$expirationDate','$expirationTime','1','$currentDate','$currentTime' )";
+    $result = dbQuery($query);
+    if ($result == TRUE)
+        cook($token);
+    else
+        cook(null, true, 'خطای داخلی سرور');
 }
 
-function createUser($walletID)
+function createLoginCredential($userID, $username)
 {
-    global $phoneNumber, $currentDate, $currentTime;
-    $user_query = "INSERT INTO User(phone, wallet_id, creation_date, creation_time)
-    VALUES('$phoneNumber','$walletID','$currentDate','$currentTime')";
-    return dbQuery($user_query);
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i:s');
+    $flavor = $userID . "#Mohammad" . $currentDate . "#Mohammad" . $currentTime . "#Mohammad" . $username;
+    $token = hash('sha256', $flavor);
+    createToken($token, $userID);
 }
 
-function createOTP()
-{
-    global $OTPCode, $phoneNumber, $expirationDate, $expirationTime, $currentDate, $currentTime;
-    $userID = getUserIDFromPhone($phoneNumber);
-    dbQuery("DELETE FROM OTP WHERE user = '$userID'");
-    $query = "INSERT INTO OTP(value, user, expiration_date, expiration_time, creation_date, creation_time)
-     VALUES('$OTPCode', '$userID', '$expirationDate','$expirationTime','$currentDate','$currentTime' )";
-    return dbQuery($query);
-}
+$result = dbQuery("SELECT id, username, password FROM User WHERE type = '1'");
 
-function cleanUp()
-{
-    global $phoneNumber;
-    dbQuery("DELETE FROM Wallet WHERE id IN (SELECT Wallet.id FROM Wallet,User WHERE User.wallet_id = Wallet.id AND User.phone = '$phoneNumber' AND User.type = '0')");
-    dbQuery("DELETE FROM User WHERE phone = '$phoneNumber' AND type = '0'");
-}
-
-function sendSMS()
-{
-    global $phoneNumber, $OTPCode;
-
-    try {
-        date_default_timezone_set("Asia/Tehran");
-
-        // your sms.ir panel configuration
-        $APIKey = "30cc1df5415d4e2361c82a02";
-        $SecretKey = "KimiaMohammad_L95";
-        $APIURL = "https://ws.sms.ir/";
-        $templateID = "66723";
-
-        // message data
-        $data = array(
-            "ParameterArray" => array(
-                array(
-                    "Parameter" => "VerificationCode",
-                    "ParameterValue" => $OTPCode
-                )
-            ),
-            "Mobile" => $phoneNumber,
-            "TemplateId" => $templateID
-        );
-
-        $SmsIR_UltraFastSend = new SmsIR_UltraFastSend($APIKey, $SecretKey, $APIURL);
-        $UltraFastSend = $SmsIR_UltraFastSend->ultraFastSend($data);
-        var_dump($UltraFastSend);
-    } catch (Exception $e) {
-        // echo 'Error UltraFastSend : '.$e->getMessage();
+while ($row = dbFetchAssoc($result)) {
+    $_userID = $row['id'];
+    $_username = $row['username'];
+    $_passwordHash = hash('sha256', $row['password']);
+    if ($username === $_username && $password === $_passwordHash) {
+        createLoginCredential($_userID, $username);
+        return;
     }
 }
 
-$result = dbQuery("SELECT * FROM User WHERE phone = '$phoneNumber' and type = '1'");
-
-$isNewUser = false;
-if (dbNumRows($result) == 0) {
-    cleanUp();
-    $wallet_id = createWallet();
-    createUser($wallet_id);
-    $isNewUser = true;
-}
-
-if (createOTP()) {
-    sendSMS();
-    cook(null, false, 'OTP was sent to ' . ($isNewUser ? 'a new user' : 'the existing user'));
-} else
-    cook(null, true, 'خطای داخلی سرور');
+cook(null, true, 'کاربر وجود ندارد');
