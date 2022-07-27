@@ -1,6 +1,7 @@
 <?php
 
 require("../config.php");
+require_once('../utils/user_utils.php');
 require_once("../sms_service.php");
 
 $username = $_POST['username'];
@@ -38,6 +39,16 @@ function createUser($phone, $firstName, $lastName, $username, $password, $bio, $
     return -1;
 }
 
+function updateUser($phone, $firstName, $lastName, $username, $password, $bio, $addressID, $walletID)
+{
+    $query = "UPDATE User SET name = '$firstName', last_name = '$lastName', username = '$username', 
+    password = '$password', biography = '$bio', type = '0', address = '$addressID', wallet_id = '$walletID' 
+    WHERE Phone = '$phone'";
+
+    if (dbQuery($query))
+        return getUserIDFromPhone($phone);
+    return -1;
+}
 
 function sendOTP($userID, $phone)
 {
@@ -92,14 +103,31 @@ function sendSMS($phone, $OTPCode)
     }
 }
 
+function isIncompleteProfile($phone)
+{
+    $result = dbQuery("SELECT id FROM User where Phone = '$phone' AND username IS NULL AND type = '1'");
+    return dbNumRows($result) > 0;
+}
+
 $result1 = dbQuery("SELECT id FROM User WHERE username = '$username' AND type = '1'");
 $result2 = dbQuery("SELECT id FROM User WHERE phone = '$phone' AND type = '1'");
 
 if (dbNumRows($result1) > 0)
     cook(null, true, 'نام کاربری رزرو شده است');
-else  if (dbNumRows($result2) > 0)
-    cook(null, true, 'شما قبلا با این شماله تلفن در سامانه ثبت نام کرده اید');
-else {
+else  if (dbNumRows($result2) > 0) {
+    if (!isIncompleteProfile($phone))
+        cook(null, true, 'شما قبلا با این شماله تلفن در سامانه ثبت نام کرده اید');
+    else {
+        $walletID = getWalletIDFromPhone($phone);
+        $addressID = createAddress($country, $state);
+        $userID = updateUser($phone, $firstName, $lastName, $username, $password, $bio, $addressID, $walletID);
+        if ($userID !== -1) {
+            sendOTP($userID, $phone);
+            cook("از ثبت نام مجدد شما در نسخه جدید سامانه متشکریم. کد فعالسازی به شماره تلفن ارسال شد");
+        } else
+            cook(null, true, 'خطای داخلی سرور');
+    }
+} else {
     $walletID = createWallet($INITIAL_WALLET_BALANCE_RIALS);
     $addressID = createAddress($country, $state);
     $userID = createUser($phone, $firstName, $lastName, $username, $password, $bio, $addressID, $walletID);
