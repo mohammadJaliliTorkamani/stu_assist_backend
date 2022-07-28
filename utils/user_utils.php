@@ -108,3 +108,8 @@ function getUserIDFromPhone($phoneNumber)
     $result = dbQuery("SELECT id FROM User WHERE phone = '$phoneNumber'");
     return dbFetchAssoc($result)['id'];
 }
+
+function getUsernameFromUserID($userID){
+    $result = dbQuery("SELECT username FROM User WHERE id = '$userID'");
+    return dbFetchAssoc($result)['username'];
+}

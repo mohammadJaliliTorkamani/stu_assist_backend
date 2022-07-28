@@ -123,7 +123,7 @@ else  if (dbNumRows($result2) > 0) {
         $userID = updateUser($phone, $firstName, $lastName, $username, $password, $bio, $addressID, $walletID);
         if ($userID !== -1) {
             sendOTP($userID, $phone);
-            cook("از ثبت نام مجدد شما در نسخه جدید سامانه متشکریم. کد فعالسازی به شماره تلفن ارسال شد");
+            cook("از ثبت نام مجدد شما با حفظ اطلاعات قبلی در نسخه جدید سامانه متشکریم. کد فعالسازی به شماره تلفن ارسال شد");
         } else
             cook(null, true, 'خطای داخلی سرور');
     }
