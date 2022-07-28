@@ -116,7 +116,7 @@ if (dbNumRows($result1) > 0)
     cook(null, true, 'نام کاربری رزرو شده است');
 else  if (dbNumRows($result2) > 0) {
     if (!isIncompleteProfile($phone))
-        cook(null, true, 'شما قبلا با این شماله تلفن در سامانه ثبت نام کرده اید');
+        cook(null, true, 'شما قبلا با این شماره تلفن در سامانه ثبت نام کرده اید');
     else {
         $walletID = getWalletIDFromPhone($phone);
         $addressID = createAddress($country, $state);
