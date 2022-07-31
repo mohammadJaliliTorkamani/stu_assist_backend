@@ -33,8 +33,11 @@ while ($row = dbFetchAssoc($result)) {
         'website' => $row['website'],
         'phoneNumber' => $row['phone'],
         'address' => [
-            'name' => $row['postal_address'], 'latitude' => $row['latitude'],
-            'longitude' => $row['longitude'], 'state' => $row['state'], 'city' => $row['city']
+            'name' => $row['postal_address'],
+            'latitude' => (float)$row['latitude'],
+            'longitude' => (float)$row['longitude'],
+            'state' => $row['state'],
+            'city' => $row['city']
         ],
         'languages' => getLanguages($counter - 1)
     );
