@@ -21,3 +21,15 @@ function getPostsOfCategory($categoryID)
 
     return $posts;
 }
+
+
+function createInitialBlogPost($title, $overview, $content, $available, $blogCategoryID)
+{
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i:s');
+
+    $query = "INSERT INTO BlogPost (title, overview, content, creation_date, creation_time, available) 
+    VALUES ('$title','$overview','$content','$currentDate','$currentTime','$available')";
+    dbQuery($query);
+    return dbInsertId();
+}
